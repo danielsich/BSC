@@ -21,5 +21,13 @@ a = np.zeros((100,1))
 b = np.full((100,1), 720)
 
 ## merge into 1 array
-data = np.hstack((coordinates,q,a,b))
-print(data)
+N = np.hstack((coordinates,q,a,b))
+
+##create Depot
+N0 = np.array([[50, 50, np.nan, np.nan, np.nan]])
+
+## merge
+N = np.vstack((N0, N))
+## store data for use in other programs
+np.save('N.npy', N)
+print(N)
