@@ -29,8 +29,10 @@ def dist3deuclid(a, b):
     distance = np.linalg.norm(a-b)
     
     return distance
-a = Ns[0, :]
-b = Ns[1, :] 
+aa = 0 
+bb = 1
+a = Ns[aa, :]
+b = Ns[bb, :] 
 print(dist3deuclid(a, b))
 ## define empty array to fill in the distances
 def customersize(a):
@@ -49,20 +51,39 @@ def dijin(a, Ns):
     ##define used customers for calculation
     inp = np.random.choice(np.arange(1, Ns.shape[0]), size=a, replace = False)
     inp = np.insert(inp, 0, 0)
-    i = j = 0
-    if i in inp.shape:
-        if j in inp.shape:
-            if(i != j):
-                outp[i,j] = dist3deuclid(Ns[inp[i],:], Ns[inp[j], :])
+    np.save('relN',inp)
+    i = 0
+    j = 0
+    c = 0 
+    d = 0
+    """if i < (a+1):
+        if j < (a+1):
+            c = inp[i]
+            d = inp[j]
+            outp[i,j] = dist3deuclid(Ns[c,:], Ns[d, :])
             j += 1
                 
         i += 1
-    
+    """
+    for i in range(len(inp)):
+        for j in range(len(inp)):
+            if(i != j):
+                c = inp[i]
+                d = inp[j]
+                outp[i,j] = dist3deuclid(Ns[c,:], Ns[d, :])
+         
+            
     return outp
 
 
 
 
-
-print(dijin(2,Ns))
-print((dijin(2,Ns).shape[0]))
+abc = dijin(8,Ns)
+np.save('Dist.npy',abc)
+print(abc)
+'''
+print(abc[0])
+print(abc[1])
+print(abc[2])
+print(abc.shape[0])
+'''
