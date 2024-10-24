@@ -10,16 +10,16 @@ import numpy as np
 ##set seed
 np.random.seed(37)
 
-## Coordinates between 0 and 100
-coordinates = np.random.uniform(0,100, size =(100,2) )
+## Coordinates between 0 and 500 Kilometers
+coordinates = np.random.uniform(0,500, size =(100,2) )
 
-## coordinates hights between 0 and 300
+## coordinates hights between 0 and 300 in Meters
 h = np.random.uniform(0,300, size = (100,1))
 
 ## demand between 100 and 1000
 q = np.random.uniform(100,1000, size =(100,1) )
 
-## dropoff windows
+## dropoff windows between 0 and 720 minutes
 a = np.zeros((100,1))
 b = np.full((100,1), 720)
 
@@ -27,7 +27,7 @@ b = np.full((100,1), 720)
 N = np.hstack((coordinates, h, q, a, b))
 
 ##create Depot
-N0 = np.array([[50, 50, 150, np.nan, np.nan, np.nan]])
+N0 = np.array([[250, 250, 150, np.nan, np.nan, np.nan]])
 
 ## merge
 N = np.vstack((N0, N))
