@@ -7,6 +7,9 @@ Created on Thu Oct 24 18:52:25 2024
 
 import numpy as np
 
+##set seed
+np.random.seed(37)
+
 ## Coordinates between 0 and 100
 coordinates = np.random.uniform(0,100, size =(100,2) )
 
