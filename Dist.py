@@ -32,7 +32,37 @@ def dist3deuclid(a, b):
 a = Ns[0, :]
 b = Ns[1, :] 
 print(dist3deuclid(a, b))
-
+## define empty array to fill in the distances
 def customersize(a):
     nan_array = np.full((a+1,a+1),np.nan)
     return nan_array
+
+print(customersize(5).shape)
+##print(np.insert(np.random.choice(np.arange(1,100),size=10, replace = False)),0,0)
+
+
+##set up customerarray
+def dijin(a, Ns):
+    ##define size of output array
+    outp = customersize(a)
+    
+    ##define used customers for calculation
+    inp = np.random.choice(np.arange(1, Ns.shape[0]), size=a, replace = False)
+    inp = np.insert(inp, 0, 0)
+    i = j = 0
+    if i in inp.shape:
+        if j in inp.shape:
+            if(i != j):
+                outp[i,j] = dist3deuclid(Ns[inp[i],:], Ns[inp[j], :])
+            j += 1
+                
+        i += 1
+    
+    return outp
+
+
+
+
+
+print(dijin(2,Ns))
+print((dijin(2,Ns).shape[0]))
