@@ -14,10 +14,10 @@ np.random.seed(37)
 N = np.load('N.npy')
 
 ## only keep the first three collums
-Ns = N[:,:3] 
+##Ns = N[:,:3] 
 
 ## change hight to Kilometers
-Ns[:, 2] = Ns[:, 2] / 1000
+###Ns[:, 2] = Ns[:, 2] / 1000
 np.set_printoptions(suppress=True, precision = 8)
 ##print(Ns)
 
@@ -31,8 +31,8 @@ def dist3deuclid(a, b):
     return distance
 aa = 0 
 bb = 1
-a = Ns[aa, :]
-b = Ns[bb, :] 
+a = N[aa, :3]
+b = N[bb, :3] 
 print(dist3deuclid(a, b))
 ## define empty array to fill in the distances
 def customersize(a):
@@ -44,42 +44,44 @@ print(customersize(5).shape)
 
 
 ##set up customerarray
-def dijin(a, Ns):
+def dijin(a,Ns):
     ##define size of output array
     outp = customersize(a)
     
     ##define used customers for calculation
     inp = np.random.choice(np.arange(1, Ns.shape[0]), size=a, replace = False)
     inp = np.insert(inp, 0, 0)
-    np.save('relN',inp)
+    relN = 0
+    
+    ##np.save('relN',inp)
     i = 0
     j = 0
     c = 0 
     d = 0
-    """if i < (a+1):
-        if j < (a+1):
-            c = inp[i]
-            d = inp[j]
-            outp[i,j] = dist3deuclid(Ns[c,:], Ns[d, :])
-            j += 1
-                
-        i += 1
-    """
+    for i in range(len(inp)):
+        j = inp[i]
+        np.append(relN,Ns[j, :])
+        
+    np.save('relN',relN)
+    
+    i = 0
+    j = 0
     for i in range(len(inp)):
         for j in range(len(inp)):
             if(i != j):
                 c = inp[i]
                 d = inp[j]
-                outp[i,j] = dist3deuclid(Ns[c,:], Ns[d, :])
-         
-            
+                outp[i,j] = dist3deuclid(Ns[c,:3], Ns[d, :3])
+       
+    np.save('Dist.npy',outp)        
     return outp
 
 
+##def degrees(Nso,dij):
+    
 
-
-abc = dijin(8,Ns)
-np.save('Dist.npy',abc)
+abc = dijin(2,N)
+##np.save('Dist.npy',abc)
 print(abc)
 '''
 print(abc[0])
