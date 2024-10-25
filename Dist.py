@@ -51,7 +51,7 @@ def dijin(a,Ns):
     ##define used customers for calculation
     inp = np.random.choice(np.arange(1, Ns.shape[0]), size=a, replace = False)
     inp = np.insert(inp, 0, 0)
-    relN = 0
+    relN = Ns[0,:]
     
     ##np.save('relN',inp)
     i = 0
@@ -60,9 +60,9 @@ def dijin(a,Ns):
     d = 0
     for i in range(len(inp)):
         j = inp[i]
-        np.append(relN,Ns[j, :])
+        if(j != 0):
+            relN = np.vstack((relN,Ns[j, :]))
         
-    np.save('relN',relN)
     
     i = 0
     j = 0
@@ -72,20 +72,14 @@ def dijin(a,Ns):
                 c = inp[i]
                 d = inp[j]
                 outp[i,j] = dist3deuclid(Ns[c,:3], Ns[d, :3])
-       
+    np.save('relN',relN)  
     np.save('Dist.npy',outp)        
     return outp
 
 
-##def degrees(Nso,dij):
+
     
 
 abc = dijin(2,N)
 ##np.save('Dist.npy',abc)
 print(abc)
-'''
-print(abc[0])
-print(abc[1])
-print(abc[2])
-print(abc.shape[0])
-'''
