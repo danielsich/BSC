@@ -31,7 +31,7 @@ bi = relN[:,5] # latest time
 
 
 ##Vehicles
-m = 2 #amount
+m = 3 #amount
 K = np.arange(m)
 Q = 3500  # Capacity
 print(relN)
@@ -49,6 +49,10 @@ prp.setObjective(zf, GRB.MINIMIZE)
 
 ## costraints
 prp.addConstr(quicksum(x[0, j] for j in N0) == m, name="con10")
+
+for i in N0:
+    prp.addConstr(quicksum(x[i, j] for j in N0) == 1, name=f"con11_{i}")
+    prp.addConstr(quicksum(x[j, i] for j in N0) == 1, name=f"con12_{i}")
 
 ##set params
 prp.setParam('TimeLimit', 5)
