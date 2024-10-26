@@ -26,9 +26,7 @@ def dist3deuclid(a, b):
     a = np.array(a)
     b = np.array(b)
     
-    distance = np.linalg.norm(a-b)
-    
-    return distance
+    return np.linalg.norm(a-b)
 aa = 0 
 bb = 1
 a = N[aa, :3]
