@@ -35,7 +35,7 @@ m = 2 #amount
 K = np.arange(m)
 Q = 3500  # Capacity
 print(relN)
-print(N0q)
+##print(N0q)
 
 ## start model
 prp = Model()
@@ -43,4 +43,8 @@ x = {}
 for i in range(Nq):
     for j in range(Nq):
         x[i, j] = prp.addVar(vtype= GRB.BINARY)
+
+zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
+prp.setObjective(zf, GRB.MINIMIZE)
+
 

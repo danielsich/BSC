@@ -34,8 +34,7 @@ b = N[bb, :3]
 print(dist3deuclid(a, b))
 ## define empty array to fill in the distances
 def customersize(a):
-    nan_array = np.full((a+1,a+1),np.nan)
-    return nan_array
+    return np.zeros((a+1, a+1), dtype=float)
 
 print(customersize(5).shape)
 ##print(np.insert(np.random.choice(np.arange(1,100),size=10, replace = False)),0,0)
