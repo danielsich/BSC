@@ -35,7 +35,7 @@ m = 2 #amount
 K = np.arange(m)
 Q = 3500  # Capacity
 print(relN)
-##print(N0q)
+print(N0q)
 
 ## start model
 prp = Model()
@@ -47,4 +47,10 @@ for i in range(Nq):
 zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 prp.setObjective(zf, GRB.MINIMIZE)
 
+## costraints
+prp.addConstr(quicksum(x[0, j] for j in N0) == m, name="con10")
 
+##set params
+prp.setParam('TimeLimit', 5)
+prp.update()
+prp.optimize()
