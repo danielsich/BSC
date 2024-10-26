@@ -18,6 +18,24 @@ relN = np.load('relN.npy')
 Dist = np.load('Dist.npy') 
 ##print(relN)
 ## customers
-N0 = relN[1:]
-print(N0)
-K = [0,1]
+N0d = relN[1:]
+##print(N0d)
+
+
+N = np.arange(relN.shape[0]) ## Alle Knoten
+N0 = N[1:] ## alle Kundenknoten
+Nq = N.shape[0] ## anzahl Knoten
+N0q = N0.shape[0] ## anzahl Kunden
+qi = relN[:,3]
+ti = 10
+ai = relN[:,4]
+bi = relN[:,5]
+##fahrzeuge
+m = 2 #anzahl
+K = np.arange(m)
+Q = 3500
+print(relN)
+print(N0q)
+
+
+
