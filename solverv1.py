@@ -16,26 +16,31 @@ np.random.seed(37)
 ## import relevant np.arrays
 relN = np.load('relN.npy')
 Dist = np.load('Dist.npy') 
-##print(relN)
+
 ## customers
-N0d = relN[1:]
-##print(N0d)
+N0d = relN[1:] # information all customers
+
+N = np.arange(relN.shape[0]) # All edges
+N0 = N[1:] # alle customer edges
+Nq = N.shape[0] # number edges
+N0q = N0.shape[0] # number customers
+qi = relN[:,3] #Demand Customer
+ti = 10 # service time
+ai = relN[:,4] # earliest time
+bi = relN[:,5] # latest time
 
 
-N = np.arange(relN.shape[0]) ## Alle Knoten
-N0 = N[1:] ## alle Kundenknoten
-Nq = N.shape[0] ## anzahl Knoten
-N0q = N0.shape[0] ## anzahl Kunden
-qi = relN[:,3]
-ti = 10
-ai = relN[:,4]
-bi = relN[:,5]
-##fahrzeuge
-m = 2 #anzahl
+##Vehicles
+m = 2 #amount
 K = np.arange(m)
-Q = 3500
+Q = 3500  # Capacity
 print(relN)
 print(N0q)
 
-
+## start model
+prp = Model()
+x = {}
+for i in range(Nq):
+    for j in range(Nq):
+        x[i, j] = prp.addVar(vtype= GRB.BINARY)
 
