@@ -44,6 +44,11 @@ for i in range(Nq):
     for j in range(Nq):
         x[i, j] = prp.addVar(vtype= GRB.BINARY)
 
+f = {}
+for i in range(Nq):
+    for j in range(Nq):
+        f[i, j] = prp.addVar(vtype= GRB.CONTINUOUS)
+
 zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 prp.setObjective(zf, GRB.MINIMIZE)
 
