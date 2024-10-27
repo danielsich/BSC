@@ -16,7 +16,8 @@ np.random.seed(37)
 ## import relevant np.arrays
 relN = np.load('relN.npy')
 Dist = np.load('Dist.npy') 
-
+Archs = np.load('Archs.npy') ## relevant Archs
+print(Archs)
 ## customers
 N0d = relN[1:] # information all customers
 

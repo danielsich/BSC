@@ -73,7 +73,7 @@ def dijin(a,Ns):
                 c = inp[i]
                 d = inp[j]
                 outp[i,j] = dist3deuclid(Ns[c,:3], Ns[d, :3])
-    Archs = tupls(a)
+    Archs = tupls(a + 1)
     np.save('Archs.npy', Archs)
     np.save('relN.npy', relN)  
     np.save('Dist.npy', outp)        
