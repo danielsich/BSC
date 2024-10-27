@@ -60,7 +60,7 @@ for i in N0:
     prp.addConstr(quicksum(x[j, i] for j in N0) == 1, name=f"con12_{i}")
 
 for i in N0:
-    prp.addConstr(quicksum(f[j, i] for j in N)-quicksum(f[i, j] for j in N) == qi, name=f"con13_{i}")
+    prp.addConstr(quicksum(f[j, i] for j in N)-quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
 ##set params
 prp.setParam('TimeLimit', 5)
 prp.update()
