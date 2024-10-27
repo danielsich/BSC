@@ -61,6 +61,8 @@ for i in N0:
 
 for i in N0:
     prp.addConstr(quicksum(f[j, i] for j in N)-quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
+
+
 ##set params
 prp.setParam('TimeLimit', 5)
 prp.update()

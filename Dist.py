@@ -39,7 +39,11 @@ def customersize(a):
 print(customersize(5).shape)
 ##print(np.insert(np.random.choice(np.arange(1,100),size=10, replace = False)),0,0)
 
-
+## get the possible combinations
+def tupls (a):
+    arcs = [(i, j) for i in range(a) for j in range(a) if i != j]
+    return np.array(arcs)
+    
 ##set up customerarray
 def dijin(a,Ns):
     ##define size of output array
@@ -69,8 +73,10 @@ def dijin(a,Ns):
                 c = inp[i]
                 d = inp[j]
                 outp[i,j] = dist3deuclid(Ns[c,:3], Ns[d, :3])
-    np.save('relN',relN)  
-    np.save('Dist.npy',outp)        
+    Archs = tupls(a)
+    np.save('Archs.npy', Archs)
+    np.save('relN.npy', relN)  
+    np.save('Dist.npy', outp)        
     return outp
 
 
