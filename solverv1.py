@@ -17,7 +17,7 @@ np.random.seed(37)
 relN = np.load('relN.npy')
 Dist = np.load('Dist.npy') 
 Archs = np.load('Archs.npy') ## relevant Archs
-print(Archs)
+##print(Archs)
 ## customers
 N0d = relN[1:] # information all customers
 
@@ -63,7 +63,9 @@ for i in N0:
 for i in N0:
     prp.addConstr(quicksum(f[j, i] for j in N)-quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
 
-
+for i, j in Archs:
+    prp.addConstr(qi[j] * x[i,j] <= f[i, j], name=f"con14_low_{i}_{j}")
+    prp.addConstr(f[i, j] <= (Q - qi[i]*x[i, j]), name=f"con14_high_{i}_{j}")
 ##set params
 prp.setParam('TimeLimit', 5)
 prp.update()
