@@ -29,6 +29,8 @@ print("--------------------------------")
 ##print(Dist[0,:])
 
 def tj0(levels, Dist):
+    assert Dist.ndim == 2
+    assert levels.ndim == 1
     trvlt = np.zeros((Dist.shape[0], levels.shape[0]))
     for i in range(Dist.shape[0]):
         for j in range(len(levels)):
@@ -36,7 +38,7 @@ def tj0(levels, Dist):
             
     np.save('tj0.npy',trvlt)
     return trvlt
-print(tj0(levels, Dist))
+print(tj0(a, Dist))
             
     
     
