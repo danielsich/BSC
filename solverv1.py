@@ -59,6 +59,10 @@ for i in range(Nq):
 y = {} ## time at wich node i is visited
 for i in range(Nq):
     y[i] = prp.addVar(vtype= GRB.CONTINUOUS)
+    
+s = {}
+for i in range(N0q):
+    s[i] = prp.addVar(vtype= GRB.CONTINUOUS)
 
 zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 prp.setObjective(zf, GRB.MINIMIZE)
