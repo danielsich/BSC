@@ -10,10 +10,11 @@ import numpy as np
 ## set seed
 np.random.seed(37)
 
-## load archs
-Archs = np.load('Archs.npy') ## relevant Archs
-##print(Archs)
-##define Vr
+## load distances
+##Archs = np.load('Archs.npy') ## relevant Archs
+Dist = np.load('Dist.npy') 
+
+##define averagespeed for the relevant speed levels
 def levels(low, high, level):
     diff = high - low
     ranges = diff/level
@@ -22,6 +23,24 @@ def levels(low, high, level):
     return np.array(lvl)
 
 a = levels(40, 100, 60)
+print(a.ndim)
+print(Dist)
+print("--------------------------------")
+##print(Dist[0,:])
+
+def tj0(levels, Dist):
+    trvlt = np.zeros((Dist.shape[0], levels.shape[0]))
+    for i in range(Dist.shape[0]):
+        for j in range(len(levels)):
+            trvlt[i, j] = Dist[i, 0] / levels[j]
+            
+    np.save('tj0.npy',trvlt)
+    return trvlt
+print(tj0(levels, Dist))
+            
+    
+    
+    
 
 '''
 def speedarchs(low, high, level, Arch):
