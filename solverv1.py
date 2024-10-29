@@ -17,6 +17,7 @@ np.random.seed(37)
 relN = np.load('relN.npy')
 Dist = np.load('Dist.npy') 
 Archs = np.load('Archs.npy') ## relevant Archs
+lvl = np.load('lvl.npy') ## speed levels
 ##print(Archs)
 ## customers
 N0d = relN[1:] # information all customers
@@ -30,13 +31,11 @@ ti = 10 # service time
 ai = relN[:,4] # earliest time
 bi = relN[:,5] # latest time
 
-
 ##Vehicles
 m = 3 #amount
 K = np.arange(m)
 Q = 3500  # Capacity
-print(relN)
-print(N0q)
+
 
 ## start model
 prp = Model()
@@ -44,6 +43,12 @@ x = {}
 for i in range(Nq):
     for j in range(Nq):
         x[i, j] = prp.addVar(vtype= GRB.BINARY)
+        
+z = {}
+for i in range(Nq):
+    for j in range (Nq):
+        for r in range(lvl.shape[0]):
+            z[i, j, r] = prp.addVar(vtype = GRB.BINARY)
 
 f = {}
 for i in range(Nq):
