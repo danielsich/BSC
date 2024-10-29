@@ -36,6 +36,7 @@ m = 3 #amount
 K = np.arange(m)
 Q = 3500  # Capacity
 
+BIGM = 999999 ##bigM
 
 ## start model
 prp = Model()
