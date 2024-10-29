@@ -18,6 +18,7 @@ relN = np.load('relN.npy')
 Dist = np.load('Dist.npy') 
 Archs = np.load('Archs.npy') ## relevant Archs
 lvl = np.load('lvl.npy') ## speed levels
+tj0 = np.load('tj0.npy')
 ##print(Archs)
 ## customers
 N0d = relN[1:] # information all customers
@@ -94,9 +95,7 @@ for i, j in Archs:
     prp.addConstr(quicksum(z[i, j, r] for r in range(lvl.shape[0])) == x[i, j], name=f"con_18_{i}_{j}")
 
 for j in N0:
-    for r in range(lvl.shape[0]):
-        if z[j, 0, r] ==1 :
-            prp.addConstr(s[j] == (y[j] + ti + (Dist[j, 0] / lvl[r])) * BIGM * (1 - x[j, 0]), name=f"constr_22{j}")
+    prp.addConstr((y[j] + ti + quicksum(tj0[j, r] for r in range(lvl.shape[0])))* x[j, 0] == s[j], name=f"constr_22{j}")
 '''
 for j in N0:
     print(f"Processing j = {j}")
