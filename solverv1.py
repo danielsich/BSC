@@ -95,7 +95,7 @@ for i, j in Archs:
     prp.addConstr(quicksum(z[i, j, r] for r in range(lvl.shape[0])) == x[i, j], name=f"con_18_{i}_{j}")
 
 for j in N0:
-    prp.addConstr((y[j] + ti + quicksum(tj0[j, r] for r in range(lvl.shape[0])))* x[j, 0] == s[j], name=f"constr_22{j}")
+    prp.addConstr((y[j] + ti + quicksum(tj0[j, r] * z[j, 0, r] for r in range(lvl.shape[0])))* x[j, 0] == s[j], name=f"constr_22{j}")
 '''
 for j in N0:
     print(f"Processing j = {j}")
