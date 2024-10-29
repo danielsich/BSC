@@ -82,6 +82,10 @@ for i in N:
         if i !=j:
             prp.addConstr(y[i] - y[j] + ti + quicksum((Dist[i, j] / lvl[r])* z[i, j, r] for r in range(lvl.shape[0])) <= BIGM * (1 - x[i, j]), name=f"con_15_{i}_{j}")
 
+for i in N0:
+    prp.addConstr(y[i] >= ai[i], name=f"con_16_low_{i}")
+    prp.addConstr(y[i] <= bi[i], name=f"con16_high_{i}")
+  
 for i, j in Archs:
     prp.addConstr(quicksum(z[i, j, r] for r in range(lvl.shape[0])) == x[i, j], name=f"con_18_{i}_{j}")
 ##set params
