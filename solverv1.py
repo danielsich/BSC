@@ -64,11 +64,11 @@ zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 prp.setObjective(zf, GRB.MINIMIZE)
 
 ## costraints
-prp.addConstr(quicksum(x[0, j] for j in N0) == m, name="con10")
+prp.addConstr(quicksum(x[0, j] for j in N) == m, name="con10")
 
 for i in N0:
-    prp.addConstr(quicksum(x[i, j] for j in N0) == 1, name=f"con11_{i}")
-    prp.addConstr(quicksum(x[j, i] for j in N0) == 1, name=f"con12_{i}")
+    prp.addConstr(quicksum(x[i, j] for j in N) == 1, name=f"con11_{i}")
+    prp.addConstr(quicksum(x[j, i] for j in N) == 1, name=f"con12_{i}")
 
 for i in N0:
     prp.addConstr(quicksum(f[j, i] for j in N)-quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
