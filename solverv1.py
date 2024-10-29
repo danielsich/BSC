@@ -60,9 +60,9 @@ y = {} ## time at wich node i is visited
 for i in range(Nq):
     y[i] = prp.addVar(vtype= GRB.CONTINUOUS)
     
-s = {}
-for i in range(N0q):
-    s[i] = prp.addVar(vtype= GRB.CONTINUOUS)
+s = np.zeros(N0q)
+##for i in range(N0q):
+  ##  s[i] = prp.addVar(vtype= GRB.CONTINUOUS)
 
 zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 prp.setObjective(zf, GRB.MINIMIZE)
@@ -94,7 +94,15 @@ for i, j in Archs:
     prp.addConstr(quicksum(z[i, j, r] for r in range(lvl.shape[0])) == x[i, j], name=f"con_18_{i}_{j}")
 
 for j in N0:
-    prp.addConstr(s[j] == (y[j] + ti + Dist[j, 0] / quicksum(lvl[r]* z[j, 0, r] for r in range(lvl.shape[0]))) * x[j, 0], name=f"constr_22{j}")
+    prp.addConstr(s[j] == (y[j] + ti + (Dist[j, 0] / quicksum(lvl[r]* z[j, 0, r] for r in range(lvl.shape[0])))) * BIGM(1 - x[j, 0]), name=f"constr_22{j}")
+'''
+for j in N0:
+    print(f"Processing j = {j}")
+    print(f"Dist[j, 0] = {Dist[j, 0]}")
+    print(f"x[{j}, 0] = {x[j, 0]}")
+    print(f"y[{j}] = {y[j]}")
+    prp.addConstr(s[j] == (y[j] + ti + Dist[j, 0] * quicksum(lvl[r] * z[j, 0, r] for r in range(lvl.shape[0]))) * BIGM(1 - x[j, 0]),name=f"constr_22_{j}")
+'''
 ##set params
 prp.setParam('TimeLimit', 5)
 prp.update()
