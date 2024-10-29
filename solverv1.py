@@ -92,6 +92,9 @@ for i in N0:
   
 for i, j in Archs:
     prp.addConstr(quicksum(z[i, j, r] for r in range(lvl.shape[0])) == x[i, j], name=f"con_18_{i}_{j}")
+
+for j in N0:
+    prp.addConstr(s[j] == (y[j] + ti + Dist[j, 0] / quicksum(lvl[r]* z[j, 0, r] for r in range(lvl.shape[0]))) * x[j, 0], name=f"constr_22{j}")
 ##set params
 prp.setParam('TimeLimit', 5)
 prp.update()
