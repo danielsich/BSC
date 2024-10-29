@@ -39,21 +39,25 @@ Q = 3500  # Capacity
 
 ## start model
 prp = Model()
-x = {}
+x = {} ## binary decison variable 1 if the arch is driven
 for i in range(Nq):
     for j in range(Nq):
         x[i, j] = prp.addVar(vtype= GRB.BINARY)
         
-z = {}
+z = {} ## available speedlevels for each arch
 for i in range(Nq):
     for j in range (Nq):
         for r in range(lvl.shape[0]):
             z[i, j, r] = prp.addVar(vtype = GRB.BINARY)
 
-f = {}
+f = {} ## amout of product flowing through each arch
 for i in range(Nq):
     for j in range(Nq):
         f[i, j] = prp.addVar(vtype= GRB.CONTINUOUS)
+
+y = {} ## time at wich node i is visited
+for i in range(Nq):
+    y[i] = prp.addVar(vtype= GRB.CONTINUOUS)
 
 zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 prp.setObjective(zf, GRB.MINIMIZE)
