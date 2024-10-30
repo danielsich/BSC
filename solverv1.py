@@ -32,6 +32,7 @@ ti = 10 # service time
 ai = relN[:,4] # earliest time
 bi = relN[:,5] # latest time
 
+print(lvl.shape[0])
 ##Vehicles
 m = 3 #amount
 K = np.arange(m)
@@ -106,5 +107,7 @@ for j in N0:
 '''
 ##set params
 prp.setParam('TimeLimit', 5)
+prp.setParam('OutputFlag', 0)  
+
 prp.update()
 prp.optimize()
