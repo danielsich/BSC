@@ -10,8 +10,7 @@ import gurobipy as gp
 from gurobipy import *
 
 
-## set seed
-np.random.seed(37)
+
 
 ## import relevant np.arrays
 relN = np.load('relN.npy')
@@ -19,7 +18,7 @@ Dist = np.load('Dist.npy')
 Archs = np.load('Archs.npy') ## relevant Archs
 lvl = np.load('lvl.npy') ## speed levels
 tj0 = np.load('tj0.npy')
-##print(Archs)
+
 ## customers
 N0d = relN[1:] # information all customers
 
@@ -100,14 +99,7 @@ for i, j in Archs:
     
 for j in N0:
     prp.addConstr((y[j] + ti + quicksum(tj0[j, r] * z[j, 0, r] for r in range(lvl.shape[0])))* x[j, 0] == s[j-1], name=f"constr_22{j}")
-'''
-for j in N0:
-    print(f"Processing j = {j}")
-    print(f"Dist[j, 0] = {Dist[j, 0]}")
-    print(f"x[{j}, 0] = {x[j, 0]}")
-    print(f"y[{j}] = {y[j]}")
-    prp.addConstr(s[j] == (y[j] + ti + Dist[j, 0] * quicksum(lvl[r] * z[j, 0, r] for r in range(lvl.shape[0]))) * BIGM(1 - x[j, 0]),name=f"constr_22_{j}")
-'''
+
 ##set params
 prp.setParam('TimeLimit', 5)
 prp.setParam('OutputFlag', 0)  
