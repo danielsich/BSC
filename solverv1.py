@@ -91,6 +91,9 @@ for i in N:
 for i in N0:
     prp.addConstr(y[i] >= ai[i], name=f"con_16_low_{i}")
     prp.addConstr(y[i] <= bi[i], name=f"con16_high_{i}")
+    
+for i in N0:
+    prp.addConstr(y[i] + ti - s[i] + quicksum((Dist[i, 0] / lvl[r])* z[i, 0, r] for r in range(lvl.shape[0])) <= BIGM(1 - x[i, 0]), name=f"con_17_{i}" )
   
 for i, j in Archs:
     prp.addConstr(quicksum(z[i, j, r] for r in range(lvl.shape[0])) == x[i, j], name=f"con_18_{i}_{j}")
