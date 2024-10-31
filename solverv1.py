@@ -33,7 +33,7 @@ bi = relN[:,5] # latest time
 
 print(lvl.shape[0])
 ##Vehicles
-m = 3 #amount
+m = 5 #amount
 K = np.arange(m)
 Q = 3500  # Capacity
 
@@ -61,9 +61,9 @@ y = {} ## time at wich node i is visited
 for i in range(Nq):
     y[i] = prp.addVar(vtype= GRB.CONTINUOUS)
     
-s = np.zeros(N0q)
-##for i in range(N0q):
-  ##  s[i] = prp.addVar(vtype= GRB.CONTINUOUS)
+s = {}
+for i in range(N0q):
+   s[i] = prp.addVar(vtype= GRB.CONTINUOUS)
 
 zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 prp.setObjective(zf, GRB.MINIMIZE)
@@ -96,7 +96,7 @@ for i in N0:
   
 for i, j in Archs:
     prp.addConstr(quicksum(z[i, j, r] for r in range(lvl.shape[0])) == x[i, j], name=f"con_18_{i}_{j}")
-    
+
 for j in N0:
     prp.addConstr((y[j] + ti + quicksum(tj0[j, r] * z[j, 0, r] for r in range(lvl.shape[0])))* x[j, 0] == s[j-1], name=f"constr_22{j}")
 
@@ -106,3 +106,4 @@ prp.setParam('OutputFlag', 0)
 
 prp.update()
 prp.optimize()
+print("Zielfunktionswert:",prp.objVal)
