@@ -106,4 +106,6 @@ prp.setParam('OutputFlag', 0)
 
 prp.update()
 prp.optimize()
+xVar = prp.getAttr('x', x)
+print(xVar)
 print("Zielfunktionswert:",prp.objVal)
