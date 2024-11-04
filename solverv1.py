@@ -109,7 +109,21 @@ prp.setParam('OutputFlag', 0)
 prp.update()
 prp.optimize()
 xVar = prp.getAttr('x', x)
-sout = prp.getAttr('s', s)
-##print(xVar)
-print(sout)
+#sout = prp.getAttr('s', s)
+print(xVar)
+#print(sout)
 print("Zielfunktionswert:",prp.objVal)
+
+route = []
+
+
+for i in xVar:
+    for j in xVar:
+        
+        if(xVar.keys(i,j) > 0.5):
+            print(f"{i}->{j}")
+            i = j
+            j = 0
+        
+    
+    
