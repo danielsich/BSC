@@ -109,11 +109,11 @@ prp.setParam('OutputFlag', 0)
 prp.update()
 prp.optimize()
 xVar = prp.getAttr('x', x)
-#sout = prp.getAttr('s', s)
-print(xVar)
-#print(sout)
+sout = prp.getAttr('x', s)
+#print(xVar)
+print(sout)
 print("Zielfunktionswert:",prp.objVal)
-
+'''
 route = []
 
 
@@ -124,6 +124,6 @@ for i in xVar:
             print(f"{i}->{j}")
             i = j
             j = 0
-        
+        '''
     
     
