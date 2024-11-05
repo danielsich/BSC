@@ -110,8 +110,11 @@ prp.update()
 prp.optimize()
 xVar = prp.getAttr('x', x)
 sout = prp.getAttr('x', s)
-#print(xVar)
+yi = prp.getAttr('x',y)
+
+print(xVar)
 print(sout)
+print(yi)
 print("Zielfunktionswert:",prp.objVal)
 '''
 route = []
