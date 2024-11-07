@@ -6,6 +6,7 @@ Created on Thu Oct 24 19:49:46 2024
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 ## set seed
 np.random.seed(37)
@@ -31,7 +32,7 @@ aa = 0
 bb = 1
 a = N[aa, :3]
 b = N[bb, :3] 
-print(dist3deuclid(a, b))
+##print(dist3deuclid(a, b))
 ## define empty array to fill in the distances
 def customersize(a):
     return np.zeros((a+1, a+1), dtype=float)
@@ -86,3 +87,12 @@ def dijin(a,Ns):
 abc = dijin(5,N)
 ##np.save('Dist.npy',abc)
 print(abc)
+
+def discoor(abc):
+    x = abc[:, 0]
+    y = abc[:, 1]
+    
+    plt.scatter(x, y)
+    plt.show()
+    
+discoor(relN)
