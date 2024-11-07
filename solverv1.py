@@ -127,6 +127,15 @@ def discoor(abc):
     plt.show()
     
 discoor(relN)
+
+def getTour(xrel):
+    for x1 in xrel:
+        xl = x1[0]
+        xr = x1[1]
+        print(f"Leftval: {xl}, rightval: {xr}")
+
+getTour(xrel)
+    
 '''
 print(xVar)
 print("---------------------------")
