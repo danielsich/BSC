@@ -34,7 +34,7 @@ bi = relN[:,5] # latest time
 
 print(lvl.shape[0])
 ##Vehicles
-m = 5 #amount
+m = 10 #amount
 K = np.arange(m)
 Q = 3500  # Capacity
 
@@ -105,7 +105,7 @@ for j in N:
 for i in N0:
     prp.addConstr(quicksum(x[i, j] + x[j, i] for j in N0) <= 1, name='subtourbreaking')
 ##set params
-prp.setParam('TimeLimit', 5)
+prp.setParam('TimeLimit', 50)
 prp.setParam('OutputFlag', 0)  
 
 prp.update()
@@ -117,6 +117,16 @@ yi = prp.getAttr('x', y)
 xrel = tuplelist((i, j) for i,j in xVar.keys() if xVar[i,j] == 1)
 np.save('xrel.npy', xrel)
 print(xrel)
+
+
+def discoor(abc):
+    x = abc[:, 0]
+    y = abc[:, 1]
+    
+    plt.scatter(x, y)
+    plt.show()
+    
+discoor(relN)
 '''
 print(xVar)
 print("---------------------------")

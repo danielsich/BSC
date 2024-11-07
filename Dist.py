@@ -84,15 +84,8 @@ def dijin(a,Ns):
 
     
 
-abc = dijin(5,N)
+abc = dijin(10,N)
 ##np.save('Dist.npy',abc)
 print(abc)
 
-def discoor(abc):
-    x = abc[:, 0]
-    y = abc[:, 1]
-    
-    plt.scatter(x, y)
-    plt.show()
-    
-discoor(relN)
+
