@@ -113,6 +113,9 @@ xVar = prp.getAttr('x', x)
 sout = prp.getAttr('x', s)
 yi = prp.getAttr('x', y)
 #zout = prp.getAttr('x', z)
+xrel = tuplelist((i, j) for i,j in xVar.keys() if xVar[i,j] == 1)
+print(xrel)
+'''
 print(xVar)
 print("---------------------------")
 print(sout)
@@ -122,7 +125,7 @@ print("---------------------------")
 #print(zout)
 print("---------------------------")
 print("Zielfunktionswert:",prp.objVal)
-'''
+
 route = []
 
 
