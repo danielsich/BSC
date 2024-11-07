@@ -62,7 +62,7 @@ for i in range(Nq):
     y[i] = prp.addVar(vtype= GRB.CONTINUOUS)
     
 s = {}
-for i in range(N0q):
+for i in range(Nq):
    s[i] = prp.addVar(vtype= GRB.CONTINUOUS)
 
 zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
@@ -97,8 +97,9 @@ for i in N0:
 for i, j in Archs:
     prp.addConstr(quicksum(z[i, j, r] for r in range(lvl.shape[0])) == x[i, j], name=f"con_18_{i}_{j}")
 
-for j in N0:
-    prp.addConstr((y[j] + ti + quicksum(tj0[j, r] * z[j, 0, r] for r in range(lvl.shape[0])))* x[j, 0] == s[j-1], name=f"constr_22{j}")
+for j in N:
+    if j != 0:
+        prp.addConstr((y[j] + ti + quicksum(tj0[j, r] * z[j, 0, r] for r in range(lvl.shape[0])))* x[j, 0] == s[j], name=f"constr_22{j}")
 
 for i in N0:
     prp.addConstr(quicksum(x[i, j] + x[j, i] for j in N0) <= 1, name='subtourbreaking')
@@ -111,14 +112,14 @@ prp.optimize()
 xVar = prp.getAttr('x', x)
 sout = prp.getAttr('x', s)
 yi = prp.getAttr('x', y)
-zout = prp.getAttr('x', z)
+#zout = prp.getAttr('x', z)
 print(xVar)
 print("---------------------------")
 print(sout)
 print("---------------------------")
 print(yi)
 print("---------------------------")
-print(zout)
+#print(zout)
 print("---------------------------")
 print("Zielfunktionswert:",prp.objVal)
 '''
