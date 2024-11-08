@@ -106,7 +106,7 @@ for i in N0:
     prp.addConstr(quicksum(x[i, j] + x[j, i] for j in N0) <= 1, name='subtourbreaking')
 ##set params
 prp.setParam('TimeLimit', 50)
-prp.setParam('OutputFlag', 0)  
+#prp.setParam('OutputFlag', 0)  
 
 prp.update()
 prp.optimize()
