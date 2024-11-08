@@ -67,6 +67,7 @@ for i in range(Nq):
    s[i] = prp.addVar(vtype= GRB.CONTINUOUS)
 
 zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
+zf2 = quicksum(f[i, j] * Dist[i, j] for i in N for j in N)
 prp.setObjective(zf, GRB.MINIMIZE)
 
 ## costraints
