@@ -81,7 +81,7 @@ for i in N0:
 
 for i, j in Archs:
     prp.addConstr(qi[j] * x[i,j] <= f[i, j], name=f"con14_low_{i}_{j}")
-    prp.addConstr(f[i, j] <= (Q - qi[i]*x[i, j]), name=f"con14_high_{i}_{j}")
+    prp.addConstr(f[i, j] <= (Q - qi[i])*x[i, j], name=f"con14_high_{i}_{j}")
 
 for i in N:
     for j in N0:
@@ -119,7 +119,9 @@ relflow = tuplelist((i, j) for i,j in flow.keys() if flow[i,j] > 0)
 xrel = tuplelist((i, j) for i,j in xVar.keys() if xVar[i,j] == 1)
 np.save('xrel.npy', xrel)
 print(relflow)
-
+print('--------')
+#print(Archs)
+print(xrel)
 
 def discoor(abc, xrel):
     x = abc[:, 0]
@@ -141,7 +143,7 @@ def discoor(abc, xrel):
     plt.grid()
     plt.show()
     
-discoor(relN,xrel)
+#discoor(relN,xrel)
 
 def getTour(xrel):
     for x1 in xrel:
