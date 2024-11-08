@@ -32,7 +32,7 @@ ti = 10 # service time
 ai = relN[:,4] # earliest time
 bi = relN[:,5] # latest time
 
-print(lvl.shape[0])
+print(N0q)
 ##Vehicles
 m = 10 #amount
 K = np.arange(m)
@@ -70,7 +70,7 @@ zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 prp.setObjective(zf, GRB.MINIMIZE)
 
 ## costraints
-prp.addConstr(quicksum(x[0, j] for j in N) == quicksum(x[j,0] for j in N), name="con10_better")
+prp.addConstr(quicksum(x[0, j] for j in N0) == quicksum(x[j, 0] for j in N0), name="con10_better")
 
 for i in N0:
     prp.addConstr(quicksum(x[i, j] for j in N) == 1, name=f"con11_{i}")
@@ -105,8 +105,8 @@ for j in N:
 for i in N0:
     prp.addConstr(quicksum(x[i, j] + x[j, i] for j in N0) <= 1, name='subtourbreaking')
 ##set params
-prp.setParam('TimeLimit', 50)
-#prp.setParam('OutputFlag', 0)  
+prp.setParam('TimeLimit', 100)
+prp.setParam('OutputFlag', 0)  
 
 prp.update()
 prp.optimize()
@@ -134,7 +134,7 @@ def getTour(xrel):
         xr = x1[1]
         print(f"Leftval: {xl}, rightval: {xr}")
 
-getTour(xrel)
+#getTour(xrel)
     
 '''
 print(xVar)

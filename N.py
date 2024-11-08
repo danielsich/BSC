@@ -17,7 +17,7 @@ coordinates = np.random.uniform(0,500, size =(100,2) )
 h = np.random.uniform(0,0.3, size = (100,1))
 
 ## demand between 100 and 1000
-q = np.random.uniform(100,1000, size =(100,1) )
+q = np.random.uniform(100,200, size =(100,1) )
 
 ## dropoff windows between 0 and 720 minutes
 a = np.zeros((100,1))
