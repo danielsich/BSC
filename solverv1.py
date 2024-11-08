@@ -28,7 +28,7 @@ N0 = N[1:] # alle customer edges
 Nq = N.shape[0] # number edges
 N0q = N0.shape[0] # number customers
 qi = relN[:,3] #Demand Customer
-ti = 10 # service time
+ti = 1 # service time
 ai = relN[:,4] # earliest time
 bi = relN[:,5] # latest time
 
