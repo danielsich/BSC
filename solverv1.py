@@ -81,11 +81,9 @@ for j in N0:
 for i in N0:
     prp.addConstr(quicksum(f[j, i] for j in N) - quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
 
-for j in N0:
-    prp.addConstr(quicksum(qi[j] * x[i,j] for i in N) <= quicksum(f[i, j] for i in N), name=f"con14_low_{i}_{j}")
-    
-for i in N0:
-    prp.addConstr(quicksum(f[i, j] for j in N)<= quicksum((Q - qi[i])*x[i, j] for j in N), name=f"con14_high_{i}_{j}")
+for i, j in Archs:
+    prp.addConstr(qi[j] * x[i,j] <= f[i, j], name=f"con14_low_{i}_{j}")
+    prp.addConstr(f[i, j] <= (Q - qi[i])*x[i, j], name=f"con14_high_{i}_{j}")
 
 for i in N:
     for j in N0:
