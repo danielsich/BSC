@@ -36,7 +36,7 @@ bi = relN[:,5] # latest time
 ##Vehicles
 m = 9 #amount
 K = np.arange(m)
-Q = 3500  # Capacity
+Q = 35000  # Capacity
 
 BIGM = 999999 ##bigM
 
@@ -76,8 +76,8 @@ for i in N0:
     prp.addConstr(quicksum(x[i, j] for j in N) == 1, name=f"con11_{i}")
     prp.addConstr(quicksum(x[j, i] for j in N) == 1, name=f"con12_{i}")
 
-#for i in N0:
- #   prp.addConstr(quicksum(f[j, i] for j in N) - quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
+for i in N0:
+    prp.addConstr(quicksum(f[j, i] for j in N) - quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
 
 for i, j in Archs:
     prp.addConstr(qi[j] * x[i,j] <= f[i, j], name=f"con14_low_{i}_{j}")
@@ -113,10 +113,12 @@ prp.optimize()
 xVar = prp.getAttr('x', x)
 sout = prp.getAttr('x', s)
 yi = prp.getAttr('x', y)
+flow = prp.getAttr('x', f)
+relflow = tuplelist((i, j) for i,j in flow.keys() if flow[i,j] > 0)
 #zout = prp.getAttr('x', z)
 xrel = tuplelist((i, j) for i,j in xVar.keys() if xVar[i,j] == 1)
 np.save('xrel.npy', xrel)
-print(xrel)
+print(relflow)
 
 
 def discoor(abc, xrel):
