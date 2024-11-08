@@ -106,6 +106,9 @@ for j in N0:
     if j != 0:
         prp.addConstr((y[j] + ti + quicksum(tj0[j, r] * z[j, 0, r] for r in range(lvl.shape[0])))* x[j, 0] == s[j], name=f"constr_22{j}")
 
+for i,j in Archs:
+    prp.addConstr(f[i,j] >= 0, name=f"con_20_{i}_{j}")
+    
 for i in N0:
     prp.addConstr(quicksum(x[i, j] + x[j, i] for j in N0) <= 1, name='subtourbreaking')
 ##set params
