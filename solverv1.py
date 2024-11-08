@@ -32,9 +32,9 @@ ti = 10 # service time
 ai = relN[:,4] # earliest time
 bi = relN[:,5] # latest time
 
-print(N0q)
+#print(qi)
 ##Vehicles
-m = 10 #amount
+m = 9 #amount
 K = np.arange(m)
 Q = 3500  # Capacity
 
@@ -76,8 +76,8 @@ for i in N0:
     prp.addConstr(quicksum(x[i, j] for j in N) == 1, name=f"con11_{i}")
     prp.addConstr(quicksum(x[j, i] for j in N) == 1, name=f"con12_{i}")
 
-for i in N0:
-    prp.addConstr(quicksum(f[j, i] for j in N)-quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
+#for i in N0:
+ #   prp.addConstr(quicksum(f[j, i] for j in N) - quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
 
 for i, j in Archs:
     prp.addConstr(qi[j] * x[i,j] <= f[i, j], name=f"con14_low_{i}_{j}")
@@ -91,7 +91,7 @@ for i in N:
 for i in N0:
     prp.addConstr(y[i] >= ai[i], name=f"con_16_low_{i}")
     prp.addConstr(y[i] <= bi[i], name=f"con16_high_{i}")
-    
+
 for i in N0:
     prp.addConstr(y[i] + ti - s[i-1] + quicksum((Dist[i, 0] / lvl[r])* z[i, 0, r] for r in range(lvl.shape[0])) <= BIGM * (1 - x[i, 0]), name=f"con_17_{i}" )
   
@@ -119,14 +119,27 @@ np.save('xrel.npy', xrel)
 print(xrel)
 
 
-def discoor(abc):
+def discoor(abc, xrel):
     x = abc[:, 0]
     y = abc[:, 1]
+    coordinates = abc[:, :2]
     
-    plt.scatter(x, y)
+    plt.figure(figsize=(8,6))
+    for (start, end) in xrel:
+        start_coord = coordinates[start]
+        end_coord = coordinates[end]
+        plt.plot([start_coord[0],end_coord[0]],[start_coord[1], end_coord[1]], 'bo-')
+        
+    for idx, (x, y) in enumerate(coordinates):
+        plt.text(x,y, str(idx), fontsize=12, ha='right', color='red')
+    
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.title("Routes")
+    plt.grid()
     plt.show()
     
-discoor(relN)
+discoor(relN,xrel)
 
 def getTour(xrel):
     for x1 in xrel:
