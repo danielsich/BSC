@@ -74,7 +74,9 @@ prp.addConstr(quicksum(x[0, j] for j in N0) == quicksum(x[j, 0] for j in N0), na
 
 for i in N0:
     prp.addConstr(quicksum(x[i, j] for j in N) == 1, name=f"con11_{i}")
-    prp.addConstr(quicksum(x[j, i] for j in N) == 1, name=f"con12_{i}")
+    
+for j in N0:
+    prp.addConstr(quicksum(x[i, j] for i in N) == 1, name=f"con12_{i}")
 
 for i in N0:
     prp.addConstr(quicksum(f[j, i] for j in N) - quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
@@ -143,7 +145,7 @@ def discoor(abc, xrel):
     plt.grid()
     plt.show()
     
-#discoor(relN,xrel)
+discoor(relN,xrel)
 
 def getTour(xrel):
     for x1 in xrel:
