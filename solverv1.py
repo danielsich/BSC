@@ -83,6 +83,8 @@ for i in N0:
 
 for i, j in Archs:
     prp.addConstr(qi[j] * x[i,j] <= f[i, j], name=f"con14_low_{i}_{j}")
+    
+for i,j in Archs:
     prp.addConstr(f[i, j] <= (Q - qi[i])*x[i, j], name=f"con14_high_{i}_{j}")
 
 for i in N:
