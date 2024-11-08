@@ -92,6 +92,8 @@ for i in N:
 
 for i in N0:
     prp.addConstr(y[i] >= ai[i], name=f"con_16_low_{i}")
+    
+for i in N0:
     prp.addConstr(y[i] <= bi[i], name=f"con16_high_{i}")
 
 for i in N0:
