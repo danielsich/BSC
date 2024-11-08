@@ -21,13 +21,13 @@ q = np.random.uniform(100,200, size =(100,1) )
 
 ## dropoff windows between 0 and 720 minutes
 a = np.zeros((100,1))
-b = np.full((100,1), 720)
+b = np.full((100,1), 7200)
 
 ## merge into 1 array
 N = np.hstack((coordinates, h, q, a, b))
 
 ##create Depot
-N0 = np.array([[250, 250, 150, 0, 0, 1000]])
+N0 = np.array([[250, 250, 150, 0, 0, 10000]])
 
 ## merge
 N = np.vstack((N0, N))
