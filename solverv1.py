@@ -117,7 +117,7 @@ for i,j in Archs:
 for i in N0:
     for j in N0:
         if i!= j:
-            prp.addConstr(x[i, j] + x[j, i] <= 2, name='subtourbreaking')
+            prp.addConstr(x[i, j] + x[j, i] <= 1, name='subtourbreaking')
 ##set params
 prp.setParam('TimeLimit', 100)
 prp.setParam('OutputFlag', 0)  
