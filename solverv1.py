@@ -93,10 +93,10 @@ for i in N:
             prp.addConstr(y[i] - y[j] + ti + quicksum((Dist[i, j] / lvl[r])* z[i, j, r] for r in range(lvl.shape[0])) <= BIGM * (1 - x[i, j]), name=f"con_15_{i}_{j}")
 
 for i in N0:
-    prp.addConstr(y[i] >= ai[i] - BIGM, name=f"con_16_low_{i}")
+    prp.addConstr(y[i] >= ai[i], name=f"con_16_low_{i}")
     
 for i in N0:
-    prp.addConstr(y[i] <= bi[i] + BIGM, name=f"con16_high_{i}")
+    prp.addConstr(y[i] <= bi[i], name=f"con16_high_{i}")
 
 for i in N0:
     prp.addConstr(y[i] + ti - s[i] + quicksum((Dist[i, 0] / lvl[r])* z[i, 0, r] for r in range(lvl.shape[0])) <= BIGM * (1 - x[i, 0]), name=f"con_17_{i}" )

@@ -22,7 +22,7 @@ def levels(low, high, level):
     np.save('lvl.npy',lvl)
     return np.array(lvl)
 
-a = levels((40/6), (100/60), 60)
+a = levels((40/60), (100/60), 60)
 print(a.ndim)
 print(Dist)
 print("--------------------------------")
