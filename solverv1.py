@@ -111,8 +111,13 @@ for j in N0:
 for i,j in Archs:
     prp.addConstr(f[i,j] >= 0, name=f"con_20_{i}_{j}")
     
+##for i in N0:
+ ##   prp.addConstr(quicksum(x[i, j] + x[j, i] for j in N0) <= 2, name='subtourbreaking')
+
 for i in N0:
-    prp.addConstr(quicksum(x[i, j] + x[j, i] for j in N0) <= 2, name='subtourbreaking')
+    for j in N0:
+        if i!= j:
+            prp.addConstr(x[i, j] + x[j, i] <= 2, name='subtourbreaking')
 ##set params
 prp.setParam('TimeLimit', 100)
 prp.setParam('OutputFlag', 0)  
