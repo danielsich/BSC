@@ -36,7 +36,7 @@ bi = relN[:,5] # latest time
 ##Vehicles
 m = 9 #amount
 K = np.arange(m)
-Q = 70000  # Capacity
+Q = 3500  # Capacity
 
 BIGM = 999999999 ##bigM
 
