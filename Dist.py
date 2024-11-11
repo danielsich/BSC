@@ -84,7 +84,7 @@ def dijin(a,Ns):
 
     
 
-abc = dijin(53,N)
+abc = dijin(54,N)
 ##np.save('Dist.npy',abc)
 print(abc)
 
