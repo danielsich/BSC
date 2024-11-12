@@ -163,7 +163,7 @@ def getTour(xrel):
         xr = x1[1]
         print(f"Leftval: {xl}, rightval: {xr}")
 
-#getTour(xrel)
+getTour(xrel)
     
 '''
 print(xVar)
