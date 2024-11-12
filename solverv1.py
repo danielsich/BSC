@@ -134,7 +134,7 @@ print(relflow)
 print('--------')
 #print(Archs)
 print(xrel)
-
+'''
 def discoor(abc, xrel):
     x = abc[:, 0]
     y = abc[:, 1]
@@ -156,6 +156,38 @@ def discoor(abc, xrel):
     plt.show()
     
 discoor(relN,xrel)
+'''
+
+def discoor(abc, xrel, relflow):
+    x = abc[:, 0]
+    y = abc[:, 1]
+    coordinates = abc[:, :2]
+    
+    plt.figure(figsize=(8,6))
+    for (start, end) in xrel:
+        start_coord = coordinates[start]
+        end_coord = coordinates[end]
+        plt.plot([start_coord[0], end_coord[0]], [start_coord[1], end_coord[1]], 'bo-')
+    
+    for (start, end) in relflow:
+        start_coord = coordinates[start]
+        end_coord = coordinates[end]
+        plt.plot([start_coord[0], end_coord[0]], [start_coord[1], end_coord[1]], 'go-')
+        flow_value = flow[start, end]
+        mid_x = (start_coord[0] + end_coord[0]) / 2
+        mid_y = (start_coord[1] + end_coord[1]) / 2
+        plt.text(mid_x, mid_y, f'{flow_value:.2f}', fontsize=9, ha='center', color='blue')
+        
+    for idx, (x, y) in enumerate(coordinates):
+        plt.text(x, y, str(idx), fontsize=12, ha='right', color='red')
+    
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.title("Routes and Flows")
+    plt.grid()
+    plt.show()
+    
+discoor(relN, xrel, relflow)
 
 def getTour(xrel):
     for x1 in xrel:
@@ -163,7 +195,7 @@ def getTour(xrel):
         xr = x1[1]
         print(f"Leftval: {xl}, rightval: {xr}")
 
-getTour(xrel)
+#getTour(xrel)
     
 '''
 print(xVar)
