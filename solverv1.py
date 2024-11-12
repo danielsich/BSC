@@ -163,7 +163,7 @@ def discoor(abc, xrel, relflow):
     y = abc[:, 1]
     coordinates = abc[:, :2]
     
-    plt.figure(figsize=(8,6))
+    plt.figure(figsize=(16,12))
     '''
     for (start, end) in xrel:
         start_coord = coordinates[start]
