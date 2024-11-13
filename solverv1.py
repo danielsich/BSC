@@ -135,7 +135,7 @@ print('--------')
 #print(Archs)
 print(xrel)
 
-def discoor(abc, xrel, yi):
+def discoor(abc, xrel, yi, speed, lvl):
     x = abc[:, 0]
     y = abc[:, 1]
     coordinates = abc[:, :2]
@@ -160,7 +160,7 @@ def discoor(abc, xrel, yi):
                         break
             tours.append(tour)
     
-    # Plot each tour with a unique color
+    # Plot each tour with a unique color and display the chosen speed
     for tour in tours:
         color = colors[color_index % len(colors)]
         color_index += 1
@@ -168,18 +168,29 @@ def discoor(abc, xrel, yi):
             start_coord = coordinates[start]
             end_coord = coordinates[end]
             plt.plot([start_coord[0], end_coord[0]], [start_coord[1], end_coord[1]], f'{color}o-')
+            
+            # Find the chosen speed for the arch
+            chosen_speed = None
+            for r in range(len(lvl)):
+                if speed[start, end, r] > 0.5:
+                    chosen_speed = lvl[r]
+                    break
+            if chosen_speed is not None:
+                mid_x = (start_coord[0] + end_coord[0]) / 2
+                mid_y = (start_coord[1] + end_coord[1]) / 2
+                plt.text(mid_x, mid_y, f'{chosen_speed:.2f}', fontsize=10, ha='center', color='blue')
     
     for idx, (x, y) in enumerate(coordinates):
         plt.text(x, y, f'{idx} ({yi[idx]:.2f})', fontsize=12, ha='right', color='red')
     
     plt.xlabel("X")
     plt.ylabel("Y")
-    plt.title("Routes and Visit Times")
+    plt.title("Routes, Visit Times, and Chosen Speeds")
     plt.grid()
     plt.show()
 
 # Example usage
-discoor(relN, xrel, yi)
+discoor(relN, xrel, yi, speed, lvl)
 
 def getTour(xrel):
     for x1 in xrel:
