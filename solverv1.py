@@ -156,7 +156,7 @@ def discoor(abc, xrel):
     plt.show()
     
 discoor(relN,xrel)
-'''
+
 
 def discoor(abc, xrel, relflow):
     x = abc[:, 0]
@@ -164,12 +164,11 @@ def discoor(abc, xrel, relflow):
     coordinates = abc[:, :2]
     
     plt.figure(figsize=(16,12))
-    '''
     for (start, end) in xrel:
         start_coord = coordinates[start]
         end_coord = coordinates[end]
         plt.plot([start_coord[0], end_coord[0]], [start_coord[1], end_coord[1]], 'bo-')
-    '''
+
     for (start, end) in relflow:
         start_coord = coordinates[start]
         end_coord = coordinates[end]
@@ -187,7 +186,41 @@ def discoor(abc, xrel, relflow):
     plt.title("Routes and Flows")
     plt.grid()
     plt.show()
+   '''
+
+def discoor(abc, xrel, relflow):
+    x = abc[:, 0]
+    y = abc[:, 1]
+    coordinates = abc[:, :2]
     
+    plt.figure(figsize=(16,12))
+    
+    # Define a list of colors to use for different routes
+    colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+    color_index = 0
+    
+    for (start, end) in relflow:
+        start_coord = coordinates[start]
+        end_coord = coordinates[end]
+        plt.plot([start_coord[0], end_coord[0]], [start_coord[1], end_coord[1]], f'{colors[color_index % len(colors)]}o-')
+        flow_value = flow[start, end]
+        mid_x = (start_coord[0] + end_coord[0]) / 2
+        mid_y = (start_coord[1] + end_coord[1]) / 2
+        plt.text(mid_x, mid_y, f'{flow_value:.2f}', fontsize=9, ha='center', color='blue')
+        
+        # Change color for the next route
+        color_index += 1
+        
+    for idx, (x, y) in enumerate(coordinates):
+        plt.text(x, y, str(idx), fontsize=12, ha='right', color='red')
+    
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.title("Routes and Flows")
+    plt.grid()
+    plt.show()
+    
+discoor(relN, xrel, relflow)   
 discoor(relN, xrel, relflow)
 
 def getTour(xrel):
