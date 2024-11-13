@@ -135,6 +135,54 @@ print('--------')
 #print(Archs)
 print(xrel)
 
+def discoor(abc, xrel):
+    x = abc[:, 0]
+    y = abc[:, 1]
+    coordinates = abc[:, :2]
+    
+    plt.figure(figsize=(16,12))
+    
+    # Define a list of colors to use for different routes
+    colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+    color_index = 0
+    
+    # Dictionary to store the color for each route starting from the depot
+    route_colors = {}
+    
+    # Identify routes starting from the depot (index 0)
+    tours = []
+    for start, end in xrel:
+        if start == 0:
+            tour = [(start, end)]
+            next_node = end
+            while next_node != 0:
+                for (s, e) in xrel:
+                    if s == next_node:
+                        tour.append((s, e))
+                        next_node = e
+                        break
+            tours.append(tour)
+    
+    # Plot each tour with a unique color
+    for tour in tours:
+        color = colors[color_index % len(colors)]
+        color_index += 1
+        for (start, end) in tour:
+            start_coord = coordinates[start]
+            end_coord = coordinates[end]
+            plt.plot([start_coord[0], end_coord[0]], [start_coord[1], end_coord[1]], f'{color}o-')
+    
+    for idx, (x, y) in enumerate(coordinates):
+        plt.text(x, y, str(idx), fontsize=12, ha='right', color='red')
+    
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.title("Routes")
+    plt.grid()
+    plt.show()
+
+# Example usage
+discoor(relN, xrel)
 
 def getTour(xrel):
     for x1 in xrel:
