@@ -135,7 +135,7 @@ print('--------')
 #print(Archs)
 print(xrel)
 
-
+'''
 def discoor(abc, xrel, relflow):
     x = abc[:, 0]
     y = abc[:, 1]
@@ -170,7 +170,46 @@ def discoor(abc, xrel, relflow):
     
 discoor(relN, xrel, relflow)   
 #discoor(relN, xrel, relflow)
-
+'''
+def discoor(abc, xrel, relflow):
+    x = abc[:, 0]
+    y = abc[:, 1]
+    coordinates = abc[:, :2]
+    
+    plt.figure(figsize=(16,12))
+    
+    # Define a list of colors to use for different routes
+    colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k']
+    
+    # Dictionary to store the color for each route starting from the depot
+    route_colors = {}
+    
+    for (start, end) in relflow:
+        if start == 0:  # Depot node
+            if end not in route_colors:
+                route_colors[end] = colors[len(route_colors) % len(colors)]
+    
+    for (start, end) in relflow:
+        start_coord = coordinates[start]
+        end_coord = coordinates[end]
+        # Use the color assigned to the route starting from the depot
+        route_color = route_colors[start] if start in route_colors else 'k'
+        plt.plot([start_coord[0], end_coord[0]], [start_coord[1], end_coord[1]], f'{route_color}o-')
+        flow_value = flow[start, end]
+        mid_x = (start_coord[0] + end_coord[0]) / 2
+        mid_y = (start_coord[1] + end_coord[1]) / 2
+        plt.text(mid_x, mid_y, f'{flow_value:.2f}', fontsize=9, ha='center', color='blue')
+        
+    for idx, (x, y) in enumerate(coordinates):
+        plt.text(x, y, str(idx), fontsize=12, ha='right', color='red')
+    
+    plt.xlabel("X")
+    plt.ylabel("Y")
+    plt.title("Routes and Flows")
+    plt.grid()
+    plt.show()
+    
+discoor(relN, xrel, relflow)
 def getTour(xrel):
     for x1 in xrel:
         xl = x1[0]
