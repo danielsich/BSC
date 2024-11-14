@@ -200,27 +200,20 @@ def getTour(xrel):
 
 #getTour(xrel)
     
-'''
-print(xVar)
-print("---------------------------")
-print(sout)
-print("---------------------------")
-print(yi)
-print("---------------------------")
-#print(zout)
-print("---------------------------")
-print("Zielfunktionswert:",prp.objVal)
-
-route = []
-
-
-for i in xVar:
-    for j in xVar:
-        
-        if(xVar.keys(i,j) > 0.5):
-            print(f"{i}->{j}")
-            i = j
-            j = 0
-        '''
+def check_sout_greater_than_yi(sout, yi, xrel):
+    """
+  Check if s is bigger then y to check if model is true
+    """
+    # Find the last customers before returning to the depot (node 0)
+    last_customers = [i for (i, j) in xrel if j == 0]
     
+    # Check if sout is greater than yi for each last customer
+    for customer in last_customers:
+        if sout[customer] <= yi[customer]:
+            return False
+    return True
+
+
+res = check_sout_greater_than_yi(sout, yi, xrel)
+print("s is greater than y for all last customers before returning to the depot:", res)
     
