@@ -24,10 +24,12 @@ def ang(N):
                 magi = np.linalg.norm(N[i]) 
                 magj = np.linalg.norm(N[j])
                 cos_theta = dot / (magi * magj)
-                cos_theta = np.clip(cos_theta,-1.0, 1.0)
+                #cos_theta = np.clip(cos_theta,-1.0, 1.0)
                 ang[i, j] = np.arccos(cos_theta)
     
     np.save('ang.npy',ang)
     return ang
 angl = ang(relN[:, :3])
+
+
 print(angl)
