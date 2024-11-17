@@ -35,8 +35,8 @@ def aij(a, Cr, ang):
     g = 9.81 #gravity
     a_ij = np.zeros_like(ang)
     
-    for i in ang:
-        for j in ang:
+    for i in range(ang.shape[0]):
+        for j in range(ang.shape[1]):
             a_ij[i, j] = a + g * np.sin(ang[i,j]) + g * Cr * np.cos(ang[i, j])
             
     np.save('aij.npy', a_ij)
