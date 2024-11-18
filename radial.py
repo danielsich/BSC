@@ -31,15 +31,15 @@ def ang(N):
     return ang
 angl = ang(relN[:, :3])
 
-def aij(a, Cr, ang):
+def aij(a, Cr, angl):
     g = 9.81 #gravity
-    a_ij = np.zeros_like(ang)
+    a_ij = np.zeros_like(angl)
     
-    for i in range(ang.shape[0]):
-        for j in range(ang.shape[1]):
-            a_ij[i, j] = a + g * np.sin(ang[i,j]) + g * Cr * np.cos(ang[i, j])
+    for i in range(angl.shape[0]):
+        for j in range(angl.shape[1]):
+            a_ij[i, j] = a + g * np.sin(angl[i,j]) + g * Cr * np.cos(angl[i, j])
             
     np.save('aij.npy', a_ij)
     
-aij = aij(0,0.1, angl)
-print(aij)
+a_ij = aij(0, 0.1, angl)
+print(a_ij)
