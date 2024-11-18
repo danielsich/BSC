@@ -42,4 +42,4 @@ def aij(a, Cr, ang):
     np.save('aij.npy', a_ij)
     
 aij = aij(0,0.1, angl)
-print(angl)
+print(aij)
