@@ -19,6 +19,7 @@ Dist = np.load('Dist.npy')
 Archs = np.load('Archs.npy') ## relevant Archs
 lvl = np.load('lvl.npy') ## speed levels
 tj0 = np.load('tj0.npy')
+a_ij = np.load('aij.npy')
 
 ## customers
 N0d = relN[1:] # information all customers
