@@ -69,13 +69,11 @@ s = {}
 for i in range(Nq):
    s[i] = prp.addVar(vtype= GRB.CONTINUOUS)
 
-zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
-zf2 = quicksum(f[i, j] * Dist[i, j] for i in N for j in N)
-zf3 = quicksum(x[i, 0] for i in N0)
+zfpd = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 zfpl = quicksum(a_ij[i, j] * Dist[i, j] * W *  x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N)
 zfpe = quicksum(a_ij[i, j] * Dist[i, j] * W *  x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(Dist[i, j] * betaa * (quicksum((lvl[r]**2) * z[i, j, r] for r in range(lvl.shape[0])))for i in N for j in N)
 zfprp = quicksum(cfe * a_ij[i, j] * Dist[i, j] * W *  x[i, j] for i in N for j in N) + quicksum(cfe * a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(cfe * Dist[i, j] * betaa * (quicksum((lvl[r]**2) * z[i, j, r] for r in range(lvl.shape[0])))for i in N for j in N) + quicksum(p * s[j] * x[j, 0] for j in N0)
-prp.setObjective(zfprp, GRB.MINIMIZE)
+prp.setObjective(zfpd, GRB.MINIMIZE)
 
 ## costraints
 prp.addConstr(quicksum(x[0, j] for j in N0) == quicksum(x[j, 0] for j in N0), name="con10_better")
