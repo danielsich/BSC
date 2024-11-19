@@ -16,7 +16,7 @@ relN = np.load('relN.npy')
 
 def ang(N):
     n = N.shape[0]
-    ang = np.full((n, n), np.nan)
+    ang = np.zeros((n,n))
     for i in range(n):
         for j in range(n):
             if(i != j):
