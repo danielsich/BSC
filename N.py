@@ -27,7 +27,7 @@ b = np.full((100,1), 720)
 N = np.hstack((coordinates, h, q, a, b))
 
 ##create Depot
-N0 = np.array([[250, 250, 150, 0, 0, 720]])
+N0 = np.array([[250, 250, 150, 0, 0, 800]])
 
 ## merge
 N = np.vstack((N0, N))
