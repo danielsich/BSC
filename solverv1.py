@@ -38,7 +38,7 @@ bi = relN[:,5] # latest time
 m = 9 #amount
 K = np.arange(m)
 Q = 3500  # Capacity
-W = 3500  # empty weight 
+W = 3500  # curb weight 
 
 BIGM = 999999999 ##bigM
 
