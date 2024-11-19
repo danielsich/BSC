@@ -48,5 +48,5 @@ a_ij = aij(0, 0.01, angl)
 def b(cd,A,p):
     return 0.5 * cd * A * p  
 
-b = b(0.7, 5, 1.2041)
-print(b)
+betaa = b(0.7, 5, 1.2041)
+print(betaa)

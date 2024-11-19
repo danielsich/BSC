@@ -10,7 +10,7 @@ import gurobipy as gp
 from gurobipy import *
 import matplotlib.pyplot as plt
 
-
+from radial import betaa
 
 
 ## import relevant np.arrays
@@ -72,6 +72,7 @@ zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 zf2 = quicksum(f[i, j] * Dist[i, j] for i in N for j in N)
 zf3 = quicksum(x[i, 0] for i in N0)
 zfpl = quicksum(a_ij[i, j] * Dist[i, j] * W *  x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N)
+zfpe = quicksum(a_ij[i, j] * Dist[i, j] * W *  x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(Dist[i, j] * betaa * (quicksum((lvl[r]**2) * z[i, 0, r] for r in range(lvl.shape[0])))for i in N for j in N)
 prp.setObjective(zfpl, GRB.MINIMIZE)
 
 ## costraints
