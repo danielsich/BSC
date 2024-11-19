@@ -38,6 +38,7 @@ bi = relN[:,5] # latest time
 m = 9 #amount
 K = np.arange(m)
 Q = 3500  # Capacity
+W = 3500  # empty weight 
 
 BIGM = 999999999 ##bigM
 
@@ -70,7 +71,8 @@ for i in range(Nq):
 zf = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
 zf2 = quicksum(f[i, j] * Dist[i, j] for i in N for j in N)
 zf3 = quicksum(x[i, 0] for i in N0)
-prp.setObjective(zf, GRB.MINIMIZE)
+zfpl = quicksum(x[i, j] * Dist[i, j] * a_ij[i, j] for i in N for j in N) + quicksum(x[i, j] * Dist[i, j] * f[i, j] for i in N for j in N)
+prp.setObjective(zfpl, GRB.MINIMIZE)
 
 ## costraints
 prp.addConstr(quicksum(x[0, j] for j in N0) == quicksum(x[j, 0] for j in N0), name="con10_better")
