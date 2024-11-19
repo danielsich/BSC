@@ -40,6 +40,8 @@ def aij(a, Cr, angl):
             a_ij[i, j] = a + g * np.sin(angl[i,j]) + g * Cr * np.cos(angl[i, j])
             
     np.save('aij.npy', a_ij)
-    
+    return a_ij
+
+
 a_ij = aij(0, 0.1, angl)
 print(a_ij)
