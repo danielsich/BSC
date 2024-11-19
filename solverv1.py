@@ -40,6 +40,7 @@ K = np.arange(m)
 Q = 3500  # Capacity
 W = 3500  # curb weight 
 p = 1
+cfe = 2 #cost for fuel and emissions
 BIGM = 999999999 ##bigM
 
 ## start model
@@ -73,7 +74,7 @@ zf2 = quicksum(f[i, j] * Dist[i, j] for i in N for j in N)
 zf3 = quicksum(x[i, 0] for i in N0)
 zfpl = quicksum(a_ij[i, j] * Dist[i, j] * W *  x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N)
 zfpe = quicksum(a_ij[i, j] * Dist[i, j] * W *  x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(Dist[i, j] * betaa * (quicksum((lvl[r]**2) * z[i, j, r] for r in range(lvl.shape[0])))for i in N for j in N)
-zfprp = quicksum(a_ij[i, j] * Dist[i, j] * W *  x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(Dist[i, j] * betaa * (quicksum((lvl[r]**2) * z[i, j, r] for r in range(lvl.shape[0])))for i in N for j in N) + quicksum(p * s[j] * x[j, 0] for j in N0)
+zfprp = quicksum(cfe * a_ij[i, j] * Dist[i, j] * W *  x[i, j] for i in N for j in N) + quicksum(cfe * a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(cfe * Dist[i, j] * betaa * (quicksum((lvl[r]**2) * z[i, j, r] for r in range(lvl.shape[0])))for i in N for j in N) + quicksum(p * s[j] * x[j, 0] for j in N0)
 prp.setObjective(zfprp, GRB.MINIMIZE)
 
 ## costraints
