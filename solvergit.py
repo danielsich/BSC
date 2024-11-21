@@ -11,7 +11,7 @@ Created on Sat Oct 26 12:41:56 2024
 
 @author: Daniel
 """
-
+import os
 import numpy as np
 import gurobipy as gp
 from gurobipy import *
