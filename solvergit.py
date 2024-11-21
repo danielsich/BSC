@@ -20,8 +20,8 @@ from dotenv import load_dotenv
 
 from radial import betaa
 
-def configure():
-    load_dotenv()
+
+load_dotenv()
 
 
 ## import relevant np.arrays
@@ -58,7 +58,7 @@ options = {
     #configure()
     "WLSACCESSID" : os.getenv("WLSACCESSID"),
     "WLSSECRET" : os.getenv("WLSSECRET"), 
-    "LICENSEID": os.getenv("LICENSEID")
+    "LICENSEID": os.getenv("LICENSEID"),
 }
 ## start model
 prp = gp.Model(env=gp.Env(params=options))
