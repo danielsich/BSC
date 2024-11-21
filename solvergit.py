@@ -11,13 +11,13 @@ Created on Sat Oct 26 12:41:56 2024
 
 @author: Daniel
 """
-import os
+
 import numpy as np
 import gurobipy as gp
 from gurobipy import *
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
-
+import os
 from radial import betaa
 
 
@@ -60,8 +60,10 @@ options = {
     "WLSSECRET" : os.getenv("WLSSECRET"), 
     "LICENSEID": os.getenv("LICENSEID"),
 }
+print(options)
 ## start model
-prp = gp.Model(env=gp.Env(params=options))
+env = gp.Env(params=options)
+prp = gp.Model(env=env)
 x = {} ## binary decison variable 1 if the arch is driven
 for i in range(Nq):
     for j in range(Nq):
