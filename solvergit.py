@@ -58,12 +58,12 @@ options = {
     #configure()
     "WLSACCESSID" : os.getenv("WLSACCESSID"),
     "WLSSECRET" : os.getenv("WLSSECRET"), 
-    "LICENSEID": os.getenv("LICENSEID"),
+    "LICENSEID":2503389,
 }
 print(options)
 ## start model
-env = gp.Env(params=options)
-prp = gp.Model(env=env)
+
+prp = gp.Model(env=gp.Env(params=options))
 x = {} ## binary decison variable 1 if the arch is driven
 for i in range(Nq):
     for j in range(Nq):
