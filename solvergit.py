@@ -16,6 +16,7 @@ import numpy as np
 import gurobipy as gp
 from gurobipy import *
 import matplotlib.pyplot as plt
+from dotenv import load_dotenv
 
 from radial import betaa
 
