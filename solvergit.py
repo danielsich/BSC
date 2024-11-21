@@ -20,7 +20,10 @@ from dotenv import load_dotenv
 
 from radial import betaa
 
+def configure():
+    load_dotenv()
 
+    
 ## import relevant np.arrays
 relN = np.load('relN.npy')
 Dist = np.load('Dist.npy') 
