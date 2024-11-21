@@ -23,7 +23,7 @@ from radial import betaa
 def configure():
     load_dotenv()
 
-    
+
 ## import relevant np.arrays
 relN = np.load('relN.npy')
 Dist = np.load('Dist.npy') 
@@ -54,8 +54,14 @@ p = 1
 cfe = 2 #cost for fuel and emissions
 BIGM = 999999999 ##bigM
 
+options = {
+    #configure()
+    "WLSACCESSID" : os.getenv("WLSACCESSID"),
+    "WLSSECRET" : os.getenv("WLSSECRET"), 
+    "LICENSEID": os.getenv("LICENSEID")
+}
 ## start model
-prp = Model()
+prp = gp.Model(env=gp.Env(params=options))
 x = {} ## binary decison variable 1 if the arch is driven
 for i in range(Nq):
     for j in range(Nq):
