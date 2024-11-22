@@ -60,7 +60,7 @@ options = {
     "WLSSECRET" : os.getenv("WLSSECRET"), 
     "LICENSEID":2503389,
 }
-print(options)
+#print(options)
 ## start model
 
 prp = gp.Model(env=gp.Env(params=options))
