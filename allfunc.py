@@ -1,8 +1,12 @@
-from Dist.py import dijin
-from radial.py import ang, aij, b
-from speedlevelarchs.py import levels, tj0
+from Dist import dijin
+from radial import ang, aij, b
+from speedlevelarchs import levels, tj0
+
 
 import numpy as np
 N = np.load('N.npy')
-
-print(N)
+def test(a,N):
+    dijin(a, N)
+    return dijin
+a = test(30,N)
+print(a)
