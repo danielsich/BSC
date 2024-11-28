@@ -11,17 +11,17 @@ import numpy as np
 np.random.seed(37)
 
 ## Coordinates between 0 and 500 Kilometers
-coordinates = np.random.uniform(0,500, size =(200,2) )
+coordinates = np.random.uniform(0,500, size =(500,2) )
 
 ## coordinates hights between 0 and 300 in Meters
-h = np.random.uniform(0,0.3, size = (200,1))
+h = np.random.uniform(0,0.3, size = (500,1))
 
 ## demand between 100 and 1000
-q = np.random.uniform(400,600, size =(200,1) )
+q = np.random.uniform(400,600, size =(500,1) )
 
 ## dropoff windows between 0 and 720 minutes
-a = np.zeros((200,1))
-b = np.full((200,1), 720)
+a = np.zeros((500,1))
+b = np.full((500,1), 720)
 
 ## merge into 1 array
 N = np.hstack((coordinates, h, q, a, b))
