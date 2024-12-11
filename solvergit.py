@@ -139,7 +139,7 @@ for i in N0:
         if i!= j:
             prp.addConstr(x[i, j] + x[j, i] <= 1, name='subtourbreaking')
 ##set params
-prp.setParam('TimeLimit', 100)
+prp.setParam('TimeLimit', 10000)
 prp.setParam('OutputFlag', 0)  
 
 prp.update()
