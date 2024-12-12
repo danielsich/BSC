@@ -134,6 +134,13 @@ def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl):
                     total_cost += cfe * Dist[i, j] * betaa * (lvl[r] ** 2)
     return total_cost
 
+#calc vehicles
+def calculate_vehicles_used(xVar, N0):
+    vehicles_used = 0
+    for j in N0:
+        if xVar[0, j] == 1:
+            vehicles_used += 1
+    return vehicles_used
 
 for a in range(5):
     #set parameters
@@ -285,6 +292,7 @@ for a in range(5):
     flow = prp.getAttr('x', f)
     total_costs = calculate_total_costs(xVar, flow, Dist, a_ij, cfe, W, betaa, lvl)
     print(f"Total Costs: {total_costs}")
-
+    vehicles_used = calculate_vehicles_used(xVar, N0)
+    print(f"Number of Vehicles Used: {vehicles_used}")
 
 
