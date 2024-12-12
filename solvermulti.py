@@ -12,12 +12,13 @@ from dotenv import load_dotenv
 import os
 import time
 
-
-
 load_dotenv()
 
 Distall = np.load('Distall.npy')
 Nstart = np.load('N.npy')
+
+## set seed
+np.random.seed(37)
 
 ## set up the possible combinations
 def tupls (a):
@@ -51,6 +52,7 @@ def relevantdistances(relevantcusta,Distall):
             Dist[i,j] = Distall[relevantcusta[i],relevantcusta[j]]
 
     return Dist
+
 ##define averagespeed for the relevant speed levels
 def levels(low, high, level):
     diff = high - low
@@ -58,7 +60,7 @@ def levels(low, high, level):
     lvl = [(low + i * ranges + 0.5 * ranges) for i in range(level)]
     return np.array(lvl)
 
-
+# time2depot
 def tj00(levels, Dist):
     assert Dist.ndim == 2
     assert levels.ndim == 1
@@ -68,7 +70,7 @@ def tj00(levels, Dist):
             trvlt[i, j] = Dist[i, 0] / levels[j]
     return trvlt
 
-
+# angle calculation
 def ang(N):
     n = N.shape[0]
     ang = np.zeros((n, n))
@@ -79,11 +81,11 @@ def ang(N):
                 magi = np.linalg.norm(N[i])
                 magj = np.linalg.norm(N[j])
                 cos_theta = dot / (magi * magj)
-                # cos_theta = np.clip(cos_theta,-1.0, 1.0)
+                cos_theta = np.clip(cos_theta,-1.0, 1.0)
                 ang[i, j] = np.arccos(cos_theta)
     return ang
 
-
+# constant calc arch
 def aij(a, Cr, angl):
     g = 9.81  # gravity
     a_ij = np.zeros_like(angl)
@@ -93,8 +95,19 @@ def aij(a, Cr, angl):
             a_ij[i, j] = a + g * np.sin(angl[i, j]) + g * Cr * np.cos(angl[i, j])
 
     return a_ij
+
+#vehicle constant
 def b(cd,A,p):
     return 0.5 * cd * A * p
+
+#totaldistancecalc
+def calculate_total_distance(xVar, Dist):
+    total_distance = 0
+    for (i, j) in xVar.keys():
+        if xVar[i, j] == 1:
+            total_distance += Dist[i, j]
+    return total_distance
+
 
 for a in range(5):
     #set parameters
@@ -237,6 +250,10 @@ for a in range(5):
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f"Time taken to calculate the Gurobi model: {elapsed_time} seconds")
+    xVar = prp.getAttr('x', x)
+    total_distance = calculate_total_distance(xVar, Dist)
+    print(f"Total Distance Traveled: {total_distance}")
+
 
 
 
