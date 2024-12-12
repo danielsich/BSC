@@ -11,6 +11,8 @@ import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import os
 import time
+import csv
+
 
 load_dotenv()
 
@@ -141,6 +143,11 @@ def calculate_vehicles_used(xVar, N0):
         if xVar[0, j] == 1:
             vehicles_used += 1
     return vehicles_used
+#append results
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, filepath='output/outprpsize.csv'):
+    with open(filepath, 'a', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts])
 
 for a in range(5):
     #set parameters
@@ -294,5 +301,5 @@ for a in range(5):
     print(f"Total Costs: {total_costs}")
     vehicles_used = calculate_vehicles_used(xVar, N0)
     print(f"Number of Vehicles Used: {vehicles_used}")
-
+    append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time)
 
