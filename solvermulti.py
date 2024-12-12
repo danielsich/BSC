@@ -130,7 +130,7 @@ def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl):
             total_cost += cfe * a_ij[i, j] * Dist[i, j] * W
             total_cost += cfe * a_ij[i, j] * f[i, j] * Dist[i, j]
             for r in range(len(lvl)):
-                if z[i, j, r] == 1:
+                if z[i, j, r].X > 0.5:
                     total_cost += cfe * Dist[i, j] * betaa * (lvl[r] ** 2)
     return total_cost
 
@@ -282,7 +282,8 @@ for a in range(5):
     speed = prp.getAttr('x', z)
     average_speed = calculate_average_speed(xVar, Dist, speed, lvl)
     print(f"Average Speed of Vehicles: {average_speed:.2f}")
-    total_costs = calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl)
+    flow = prp.getAttr('x', f)
+    total_costs = calculate_total_costs(xVar, flow, Dist, a_ij, cfe, W, betaa, lvl)
     print(f"Total Costs: {total_costs}")
 
 
