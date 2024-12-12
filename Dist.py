@@ -49,23 +49,23 @@ def tupls (a):
 def dijin(a,Ns):
     ##define size of output array
     outp = customersize(a)
-    
+
     ##define used customers for calculation
     inp = np.random.choice(np.arange(1, Ns.shape[0]), size=a, replace = False)
     inp = np.insert(inp, 0, 0)
     relN = Ns[0,:]
-    
+
     ##np.save('relN',inp)
     i = 0
     j = 0
-    c = 0 
+    c = 0
     d = 0
     for i in range(len(inp)):
         j = inp[i]
         if(j != 0):
             relN = np.vstack((relN,Ns[j, :]))
-        
-    
+
+
     i = 0
     j = 0
     for i in range(len(inp)):
@@ -76,16 +76,16 @@ def dijin(a,Ns):
                 outp[i,j] = dist3deuclid(Ns[c,:3], Ns[d, :3])
     Archs = tupls(a + 1)
     np.save('Archs.npy', Archs)
-    np.save('relN.npy', relN)  
-    np.save('Dist.npy', outp)        
+    np.save('relN.npy', relN)
+    np.save('Dist.npy', outp)
     return outp
 
 
 
     
 
-abc = dijin(220,N)
+abc = dijin(500,N)
 ##np.save('Dist.npy',abc)
-print(abc)
+print(abc.shape)
 
 

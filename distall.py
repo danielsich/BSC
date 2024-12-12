@@ -18,7 +18,7 @@ def dist3deuclid(a, b):
 
 ## define empty array to fill in the distances
 def customersize(a):
-    return np.zeros((a+1, a+1), dtype=float)
+    return np.zeros((a, a), dtype=float)
 
 # define Matrix distance calculation for all
 def distall(N):
