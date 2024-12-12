@@ -18,6 +18,7 @@ from gurobipy import *
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import os
+import time
 from radial import betaa
 
 
@@ -60,9 +61,10 @@ options = {
     "WLSSECRET" : os.getenv("WLSSECRET"), 
     "LICENSEID":2503389,
 }
-#print(options)
-## start model
 
+# Before optimization
+start_time = time.time()
+# start Model
 prp = gp.Model(env=gp.Env(params=options))
 x = {} ## binary decison variable 1 if the arch is driven
 for i in range(Nq):
@@ -144,6 +146,11 @@ prp.setParam('OutputFlag', 0)
 
 prp.update()
 prp.optimize()
+
+# After optimization
+end_time = time.time()
+elapsed_time = end_time - start_time
+
 xVar = prp.getAttr('x', x)
 sout = prp.getAttr('x', s)
 yi = prp.getAttr('x', y)
@@ -239,4 +246,4 @@ def check_sout_greater_than_yi(sout, yi, xrel):
 
 res = check_sout_greater_than_yi(sout, yi, xrel)
 print("s is greater than y for all last customers before returning to the depot:", res)
-    
+print(f"Time taken to calculate the Gurobi model: {elapsed_time} seconds")
