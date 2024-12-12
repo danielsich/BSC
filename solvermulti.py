@@ -108,6 +108,32 @@ def calculate_total_distance(xVar, Dist):
             total_distance += Dist[i, j]
     return total_distance
 
+def calculate_average_speed(xVar, Dist, speed, lvl):
+    total_distance = 0
+    total_time = 0
+    for (i, j) in xVar.keys():
+        if xVar[i, j] == 1:
+            total_distance += Dist[i, j]
+            for r in range(len(lvl)):
+                if speed[i, j, r] > 0.5:
+                    total_time += Dist[i, j] / lvl[r]
+                    break
+    if total_time == 0:
+        return 0
+    return total_distance / total_time
+
+# prp cost calc
+def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl):
+    total_cost = 0
+    for i in range(len(xVar)):
+        for j in range(len(xVar[i])):
+            if xVar[i, j] == 1:
+                total_cost += cfe * a_ij[i, j] * Dist[i, j] * W
+                total_cost += cfe * a_ij[i, j] * f[i, j] * Dist[i, j]
+                for r in range(len(lvl)):
+                    total_cost += cfe * Dist[i, j] * betaa * (lvl[r] ** 2) * z[i, j, r]
+    return total_cost
+
 
 for a in range(5):
     #set parameters
@@ -253,8 +279,11 @@ for a in range(5):
     xVar = prp.getAttr('x', x)
     total_distance = calculate_total_distance(xVar, Dist)
     print(f"Total Distance Traveled: {total_distance}")
-
-
+    speed = prp.getAttr('x', z)
+    average_speed = calculate_average_speed(xVar, Dist, speed, lvl)
+    print(f"Average Speed of Vehicles: {average_speed:.2f}")
+    total_costs = calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl)
+    print(f"Total Costs: {total_costs}")
 
 
 
