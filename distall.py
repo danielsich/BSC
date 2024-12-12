@@ -31,10 +31,9 @@ def distall(N):
             if(i != j):
                 c = N[i]
                 d = N[j]
-                outp[i,j] = dist3deuclid(N[c,:3], N[d, :3])
-
+                outp[i, j] = dist3deuclid(c[:3], d[:3])
     np.save('Distall.npy', outp)
     return outp
 
 abc = distall(N)
-print(abc)
+print(abc.shape)
