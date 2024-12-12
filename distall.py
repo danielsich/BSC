@@ -26,6 +26,8 @@ def distall(N):
     outp = customersize(N.shape[0])
     i = 0
     j = 0
+    c = 0
+    d = 0
     for i in range(N.shape[0]):
         for j in range(N.shape[0]):
             if(i != j):
