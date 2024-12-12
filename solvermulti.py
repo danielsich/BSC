@@ -125,13 +125,13 @@ def calculate_average_speed(xVar, Dist, speed, lvl):
 # prp cost calc
 def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl):
     total_cost = 0
-    for i in range(len(xVar)):
-        for j in range(len(xVar[i])):
-            if xVar[i, j] == 1:
-                total_cost += cfe * a_ij[i, j] * Dist[i, j] * W
-                total_cost += cfe * a_ij[i, j] * f[i, j] * Dist[i, j]
-                for r in range(len(lvl)):
-                    total_cost += cfe * Dist[i, j] * betaa * (lvl[r] ** 2) * z[i, j, r]
+    for (i, j) in xVar.keys():
+        if xVar[i, j] == 1:
+            total_cost += cfe * a_ij[i, j] * Dist[i, j] * W
+            total_cost += cfe * a_ij[i, j] * f[i, j] * Dist[i, j]
+            for r in range(len(lvl)):
+                if z[i, j, r] == 1:
+                    total_cost += cfe * Dist[i, j] * betaa * (lvl[r] ** 2)
     return total_cost
 
 
