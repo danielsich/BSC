@@ -25,7 +25,7 @@ def tupls (a):
     return np.array(arcs)
 
 # string relevant customers
-def relevantcusta(a):
+def relevantcusta(a,N):
     inp = np.random.choice(np.arange(1, N.shape[0]), size=a, replace=False)
     inp = np.insert(inp, 0, 0)
     return inp
@@ -40,7 +40,7 @@ def relevantcustomers(inp,N):
         if (j != 0):
             relN = np.vstack((relN, N[j, :]))
     return relN
-print(relevantcusta(5))
+
 #define relvant Distnces
 def relevantdistances(relevantcusta,Distall):
     size = len(relevantcusta)
@@ -98,7 +98,7 @@ def b(cd,A,p):
 
 for a in range(5):
     #set parameters
-    inp = relevantcusta(10)
+    inp = relevantcusta(10,Nstart)
     relN = relevantcustomers(inp,Nstart)
     Dist = relevantdistances(inp,Distall)
     Archs = tupls(10)
