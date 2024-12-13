@@ -148,6 +148,11 @@ def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tt
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts])
+# apennd results when time limit is reached
+def append_nan_results_to_csv(customers, filepath='output/outprpsize.csv'):
+    with open(filepath, 'a', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan])
 
 for xxx in range(5,51):
     for a in range(30):
@@ -287,20 +292,24 @@ for xxx in range(5,51):
         prp.update()
         prp.optimize()
 
-        # After optimization
-        end_time = time.time()
-        elapsed_time = end_time - start_time
-        print(f"Time taken to calculate the Gurobi model: {elapsed_time} seconds")
-        xVar = prp.getAttr('x', x)
-        total_distance = calculate_total_distance(xVar, Dist)
-        print(f"Total Distance Traveled: {total_distance}")
-        speed = prp.getAttr('x', z)
-        average_speed = calculate_average_speed(xVar, Dist, speed, lvl)
-        print(f"Average Speed of Vehicles: {average_speed:.2f}")
-        flow = prp.getAttr('x', f)
-        total_costs = calculate_total_costs(xVar, flow, Dist, a_ij, cfe, W, betaa, lvl)
-        print(f"Total Costs: {total_costs}")
-        vehicles_used = calculate_vehicles_used(xVar, N0)
-        print(f"Number of Vehicles Used: {vehicles_used}")
-        append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time)
+        if prp.Status == GRB.TIME_LIMIT:
+            append_nan_results_to_csv(len(N0))
+            print(f"Gurobi time limit reached for customer size {len(N0)}")
+        else:
+            # After optimization
+            end_time = time.time()
+            elapsed_time = end_time - start_time
+            print(f"Time taken to calculate the Gurobi model: {elapsed_time} seconds")
+            xVar = prp.getAttr('x', x)
+            total_distance = calculate_total_distance(xVar, Dist)
+            print(f"Total Distance Traveled: {total_distance}")
+            speed = prp.getAttr('x', z)
+            average_speed = calculate_average_speed(xVar, Dist, speed, lvl)
+            print(f"Average Speed of Vehicles: {average_speed:.2f}")
+            flow = prp.getAttr('x', f)
+            total_costs = calculate_total_costs(xVar, flow, Dist, a_ij, cfe, W, betaa, lvl)
+            print(f"Total Costs: {total_costs}")
+            vehicles_used = calculate_vehicles_used(xVar, N0)
+            print(f"Number of Vehicles Used: {vehicles_used}")
+            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time)
 
