@@ -7,7 +7,7 @@ Created on Mon Dec 12 17:24:04 2024
 import numpy as np
 import gurobipy as gp
 from gurobipy import *
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import os
 import time
@@ -143,16 +143,26 @@ def calculate_vehicles_used(xVar, N0):
         if xVar[0, j] == 1:
             vehicles_used += 1
     return vehicles_used
+
+# weighted load calc
+def calculate_weighted_load(xVar, f, Dist, a_ij, W):
+    weighted_load = 0
+    for (i, j) in xVar.keys():
+        if xVar[i, j] == 1:
+            weighted_load += a_ij[i, j] * Dist[i, j] * W
+            weighted_load += a_ij[i, j] * f[i, j] * Dist[i, j]
+    return weighted_load
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, filepath='output/outpdsize.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, filepath='output/outpdsize.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts])
+        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load])
+
 # apennd results when time limit is reached
 def append_nan_results_to_csv(customers, filepath='output/outpdsize.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan])
+        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
 
 for xxx in range(5,51):
     for a in range(30):
@@ -293,7 +303,7 @@ for xxx in range(5,51):
         prp.optimize()
 
         if prp.Status == GRB.TIME_LIMIT:
-            append_nan_results_to_csv(len(N0))
+           # append_nan_results_to_csv(len(N0))
             print(f"Gurobi time limit reached for customer size {len(N0)}")
         else:
             # After optimization
@@ -311,5 +321,6 @@ for xxx in range(5,51):
             print(f"Total Costs: {total_costs}")
             vehicles_used = calculate_vehicles_used(xVar, N0)
             print(f"Number of Vehicles Used: {vehicles_used}")
-            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time)
-
+            weighted_load = calculate_weighted_load(xVar, flow, Dist, a_ij, W)
+            print(f"Weighted Load: {weighted_load}")
+            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time,weighted_load)
