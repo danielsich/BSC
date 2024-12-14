@@ -148,12 +148,12 @@ def calculate_weighted_load(xVar, f, Dist, a_ij, W):
     return weighted_load
 
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, filepath='output/outprpsizeold.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, filepath='output/outprpsize.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load])
 # apennd results when time limit is reached
-def append_nan_results_to_csv(customers, filepath='output/outprpsizeold.csv'):
+def append_nan_results_to_csv(customers, filepath='output/outprpsize.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
