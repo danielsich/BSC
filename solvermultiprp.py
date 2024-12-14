@@ -144,12 +144,12 @@ def calculate_vehicles_used(xVar, N0):
             vehicles_used += 1
     return vehicles_used
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, filepath='output/outprpsize.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, filepath='output/outprpsizeold.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts])
 # apennd results when time limit is reached
-def append_nan_results_to_csv(customers, filepath='output/outprpsize.csv'):
+def append_nan_results_to_csv(customers, filepath='output/outprpsizeold.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan])
