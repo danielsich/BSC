@@ -7,7 +7,7 @@ Created on Mon Dec 12 17:24:04 2024
 import numpy as np
 import gurobipy as gp
 from gurobipy import *
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import os
 import time
@@ -21,17 +21,14 @@ Nstart = np.load('N.npy')
 
 ## set seed
 np.random.seed(37)
+# Set up the possible combinations
+def tupls(a):
+    return np.array([(i, j) for i in range(a+1) for j in range(a+1) if i != j])
 
-## set up the possible combinations
-def tupls (a):
-    arcs = [(i, j) for i in range(a+1) for j in range(a+1) if i != j]
-    return np.array(arcs)
-
-# string relevant customers
-def relevantcusta(a,N):
+# Select relevant customers
+def relevantcusta(a, N):
     inp = np.random.choice(np.arange(1, N.shape[0]), size=a, replace=False)
-    inp = np.insert(inp, 0, 0)
-    return inp
+    return np.insert(inp, 0, 0)
 # calc for relevant customers
 def relevantcustomers(inp,N):
     relN = N[0, :]
@@ -102,13 +99,9 @@ def aij(a, Cr, angl):
 def b(cd,A,p):
     return 0.5 * cd * A * p
 
-#totaldistancecalc
+# Total distance calculation
 def calculate_total_distance(xVar, Dist):
-    total_distance = 0
-    for (i, j) in xVar.keys():
-        if xVar[i, j] == 1:
-            total_distance += Dist[i, j]
-    return total_distance
+    return sum(Dist[i, j] for (i, j), val in xVar.items() if val == 1)
 
 def calculate_average_speed(xVar, Dist, speed, lvl):
     total_distance = 0
@@ -143,16 +136,26 @@ def calculate_vehicles_used(xVar, N0):
         if xVar[0, j] == 1:
             vehicles_used += 1
     return vehicles_used
+
+# weighted load calc
+def calculate_weighted_load(xVar, f, Dist, a_ij, W):
+    weighted_load = 0
+    for (i, j) in xVar.keys():
+        if xVar[i, j] == 1:
+            weighted_load += a_ij[i, j] * Dist[i, j] * W
+            weighted_load += a_ij[i, j] * f[i, j] * Dist[i, j]
+    return weighted_load
+
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, filepath='output/outpesize.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts,weighted_load, filepath='output/outpesize.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts])
+        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load])
 # apennd results when time limit is reached
 def append_nan_results_to_csv(customers, filepath='output/outpesize.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan])
+        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
 
 for xxx in range(5,51):
     for a in range(30):
@@ -200,29 +203,11 @@ for xxx in range(5,51):
         start_time = time.time()
         # start Model
         prp = gp.Model(env=gp.Env(params=options))
-        x = {}  ## binary decison variable 1 if the arch is driven
-        for i in range(Nq):
-            for j in range(Nq):
-                x[i, j] = prp.addVar(vtype=GRB.BINARY)
-
-        z = {}  ## available speedlevels for each arch
-        for i in range(Nq):
-            for j in range(Nq):
-                for r in range(lvl.shape[0]):
-                    z[i, j, r] = prp.addVar(vtype=GRB.BINARY)
-
-        f = {}  ## amout of product flowing through each arch
-        for i in range(Nq):
-            for j in range(Nq):
-                f[i, j] = prp.addVar(vtype=GRB.CONTINUOUS)
-
-        y = {}  ## time at wich node i is visited
-        for i in range(Nq):
-            y[i] = prp.addVar(vtype=GRB.CONTINUOUS)
-
-        s = {}
-        for i in range(Nq):
-            s[i] = prp.addVar(vtype=GRB.CONTINUOUS)
+        x = prp.addVars(Nq, Nq, vtype=GRB.BINARY, name="x")
+        z = prp.addVars(Nq, Nq, lvl.shape[0], vtype=GRB.BINARY, name="z")
+        f = prp.addVars(Nq, Nq, vtype=GRB.CONTINUOUS, name="f")
+        y = prp.addVars(Nq, vtype=GRB.CONTINUOUS, name="y")
+        s = prp.addVars(Nq, vtype=GRB.CONTINUOUS, name="s")
 
         zfpd = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
         zfpl = quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(
@@ -240,13 +225,9 @@ for xxx in range(5,51):
         prp.addConstr(quicksum(x[0, j] for j in N0) == quicksum(x[j, 0] for j in N0), name="con10_better")
 
         for i in N0:
-            prp.addConstr(quicksum(x[i, j] for j in N) == 1, name=f"con11_{i}")
-
-        for j in N0:
-            prp.addConstr(quicksum(x[i, j] for i in N) == 1, name=f"con12_{i}")
-
-        for i in N0:
-            prp.addConstr(quicksum(f[j, i] for j in N) - quicksum(f[i, j] for j in N) == qi[i], name=f"con13_{i}")
+            prp.addConstr(quicksum(x[i, j] for j in range(Nq)) == 1, name=f"con11_{i}")
+            prp.addConstr(quicksum(x[j, i] for j in range(Nq)) == 1, name=f"con12_{i}")
+            prp.addConstr(quicksum(f[j, i] for j in range(Nq)) - quicksum(f[i, j] for j in range(Nq)) == qi[i],name=f"con13_{i}")
 
         for i, j in Archs:
             prp.addConstr(qi[j] * x[i, j] <= f[i, j], name=f"con14_low_{i}_{j}")
@@ -255,28 +236,19 @@ for xxx in range(5,51):
         for i in N:
             for j in N0:
                 if i != j:
-                    prp.addConstr(y[i] - y[j] + ti + quicksum(
-                        (Dist[i, j] / lvl[r]) * z[i, j, r] for r in range(lvl.shape[0])) <= BIGM * (1 - x[i, j]),
-                                  name=f"con_15_{i}_{j}")
+                    prp.addConstr(y[i] - y[j] + ti + quicksum((Dist[i, j] / lvl[r]) * z[i, j, r] for r in range(lvl.shape[0])) <= BIGM * (1 - x[i, j]),name=f"con_15_{i}_{j}")
 
         for i in N0:
             prp.addConstr(y[i] >= ai[i], name=f"con_16_low_{i}")
-
-        for i in N0:
             prp.addConstr(y[i] <= bi[i], name=f"con16_high_{i}")
-
-        for i in N0:
-            prp.addConstr(
-                y[i] + ti - s[i] + quicksum((Dist[i, 0] / lvl[r]) * z[i, 0, r] for r in range(lvl.shape[0])) <= BIGM * (
-                            1 - x[i, 0]), name=f"con_17_{i}")
+            prp.addConstr(y[i] + ti - s[i] + quicksum((Dist[i, 0] / lvl[r]) * z[i, 0, r] for r in range(lvl.shape[0])) <= BIGM * (1 - x[i, 0]), name=f"con_17_{i}")
 
         for i, j in Archs:
             prp.addConstr(quicksum(z[i, j, r] for r in range(lvl.shape[0])) == x[i, j], name=f"con_18_{i}_{j}")
 
         for j in N0:
             if j != 0:
-                prp.addConstr((y[j] + ti + quicksum(tj0[j, r] * z[j, 0, r] for r in range(lvl.shape[0]))) * x[j, 0] == s[j],
-                              name=f"constr_22{j}")
+                prp.addConstr((y[j] + ti + quicksum(tj0[j, r] * z[j, 0, r] for r in range(lvl.shape[0]))) * x[j, 0] == s[j], name=f"constr_22{j}")
 
         for i, j in Archs:
             prp.addConstr(f[i, j] >= 0, name=f"con_20_{i}_{j}")
@@ -311,5 +283,7 @@ for xxx in range(5,51):
             print(f"Total Costs: {total_costs}")
             vehicles_used = calculate_vehicles_used(xVar, N0)
             print(f"Number of Vehicles Used: {vehicles_used}")
-            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time)
+            weighted_load = calculate_weighted_load(xVar, flow, Dist, a_ij, W)
+            print(f"Weighted Load: {weighted_load}")
+            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time,weighted_load)
 
