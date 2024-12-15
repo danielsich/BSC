@@ -2,13 +2,12 @@ import pandas as pd
 import numpy as np
 
 # csv2Dataframe
-file_path = '../output/outpdsize.csv'
+file_path = '../output/outprpsize.csv'
 df = pd.read_csv(file_path)
 
-# nan.tts column with the maximum value of 'tts'
+# nan.tts column with 180
 df['tts'].replace('nan', np.nan, inplace=True)
-max_tts = df['tts'].max(skipna=True)
-df['tts'].fillna(max_tts, inplace=True)
+df['tts'].fillna(180, inplace=True)
 
 ##tts2num
 df['tts'] = pd.to_numeric(df['tts'])
