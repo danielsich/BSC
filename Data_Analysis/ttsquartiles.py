@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # csv2Dataframe
 file_path = '../output/outprpsize.csv'
@@ -18,3 +19,16 @@ quartiles.columns = ['25%', '50%', '75%']
 
 # Print the quartiles
 print(quartiles)
+
+#vis
+plt.figure(figsize=(10, 6))
+plt.plot(quartiles.index, quartiles['25%'], label='25% Quartile')
+plt.plot(quartiles.index, quartiles['50%'], label='50% Quartile')
+plt.plot(quartiles.index, quartiles['75%'], label='75% Quartile')
+plt.yscale('log')
+plt.xlabel('Kunden')
+plt.ylabel('Rechenzeit')
+plt.title('25%, 50%, und 75% Quartil je Kundengröße')
+plt.legend()
+plt.grid(True)
+plt.show()
