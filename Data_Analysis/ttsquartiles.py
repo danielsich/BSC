@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 file_path = '../output/outprpsize.csv'
 df = pd.read_csv(file_path, na_values='nan')
 
-# nan.tts column with 180
-#df['tts'].replace('nan', np.nan, inplace=True)
-df['tts'].fillna(180, inplace=True)
 
-##tts2num
-df['tts'] = pd.to_numeric(df['tts'])
+##tts2num                             
+df['tts'] = pd.to_numeric(df['tts'], errors='coerce')
+
+# nan.tts column with 180
+df['tts'].fillna(180, inplace=True)
 
 quartiles = df.groupby('customers')['tts'].quantile([0.25, 0.5, 0.75]).unstack()
 
