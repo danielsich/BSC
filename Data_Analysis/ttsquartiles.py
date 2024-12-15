@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 
 # csv2Dataframe
 file_path = '../output/outprpsize.csv'
-df = pd.read_csv(file_path)
+df = pd.read_csv(file_path, na_values='nan')
 
 # nan.tts column with 180
-df['tts'].replace('nan', np.nan, inplace=True)
+#df['tts'].replace('nan', np.nan, inplace=True)
 df['tts'].fillna(180, inplace=True)
 
 ##tts2num
