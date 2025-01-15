@@ -148,17 +148,17 @@ def calculate_weighted_load(xVar, f, Dist, a_ij, W):
     return weighted_load
 
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts,weighted_load, filepath='output/outplsize.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts,weighted_load, filepath='output/outplserver.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load])
 # apennd results when time limit is reached
-def append_nan_results_to_csv(customers, filepath='output/outplsize.csv'):
+def append_nan_results_to_csv(customers, filepath='output/outplserver.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
 
-for xxx in range(5,51):
+for xxx in range(5,41):
     for a in range(30):
         #set parameters
         inp = relevantcusta(xxx,Nstart)
@@ -259,7 +259,7 @@ for xxx in range(5,51):
                 if i != j:
                     prp.addConstr(x[i, j] + x[j, i] <= 1, name='subtourbreaking')
         ##set params
-        prp.setParam('TimeLimit', 180)
+        prp.setParam('TimeLimit', 600)
         prp.setParam('OutputFlag', 0)
 
         prp.update()
