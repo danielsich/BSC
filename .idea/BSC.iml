@@ -5,7 +5,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Remote Python 3.10.12 (sftp://sichdani@linux-terminalserver.wiwi.uni-augsburg.de:22/cfs/home/s/i/sichdani/.virtualenvs/BSC/bin/python)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.11 (BSC)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
