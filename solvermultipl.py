@@ -158,7 +158,7 @@ def append_nan_results_to_csv(customers, filepath='output/outplserver.csv'):
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
 
-for xxx in range(5,41):
+for xxx in range(5,51):
     for a in range(30):
         #set parameters
         inp = relevantcusta(xxx,Nstart)
