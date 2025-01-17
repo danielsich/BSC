@@ -1,0 +1,15 @@
+nohup: ignoring input
+Set parameter WLSAccessID
+Set parameter WLSSecret
+Set parameter LicenseID to value 2503389
+Academic license 2503389 - for non-commercial use only - registered to da___@uni-a.de
+Traceback (most recent call last):
+  File "/cfs/home/s/i/sichdani/BSC/BSC/optimizedsolver.py", line 244, in <module>
+    prp.addConstr(y[i] - quicksum(quicksum(max_(0, a[j] - a[i] + ti + Dist[j, i] / lvl[r]) * z[j, i, r]for r in  range(lvl.shape[0]))for j in range(Nq)) >= a[i], name=f"con_16_low_{i}")
+  File "src/gurobipy/_helpers.pyx", line 41, in gurobipy._helpers.quicksum
+  File "/cfs/home/s/i/sichdani/BSC/BSC/optimizedsolver.py", line 244, in <genexpr>
+    prp.addConstr(y[i] - quicksum(quicksum(max_(0, a[j] - a[i] + ti + Dist[j, i] / lvl[r]) * z[j, i, r]for r in  range(lvl.shape[0]))for j in range(Nq)) >= a[i], name=f"con_16_low_{i}")
+  File "src/gurobipy/_helpers.pyx", line 41, in gurobipy._helpers.quicksum
+  File "/cfs/home/s/i/sichdani/BSC/BSC/optimizedsolver.py", line 244, in <genexpr>
+    prp.addConstr(y[i] - quicksum(quicksum(max_(0, a[j] - a[i] + ti + Dist[j, i] / lvl[r]) * z[j, i, r]for r in  range(lvl.shape[0]))for j in range(Nq)) >= a[i], name=f"con_16_low_{i}")
+TypeError: 'int' object is not subscriptable

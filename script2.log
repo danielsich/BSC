@@ -1,0 +1,13 @@
+nohup: ignoring input
+Set parameter WLSAccessID
+Set parameter WLSSecret
+Set parameter LicenseID to value 2503389
+Academic license 2503389 - for non-commercial use only - registered to da___@uni-a.de
+Set parameter TimeLimit to value 600
+Time taken to calculate the Gurobi model: 0.08396244049072266 seconds
+Traceback (most recent call last):
+  File "/cfs/home/s/i/sichdani/BSC/BSC/solverdistserver.py", line 279, in <module>
+    xVar = prp.getAttr('x', x)
+  File "src/gurobipy/_model.pyx", line 2135, in gurobipy._model.Model.getAttr
+  File "src/gurobipy/_attrutil.pyx", line 165, in gurobipy._attrutil._gettypedattrlist
+gurobipy._exception.GurobiError: Unable to retrieve attribute 'x'
