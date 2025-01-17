@@ -266,7 +266,7 @@ for xxx in range(5,51):
         prp.optimize()
 
         if prp.Status == GRB.TIME_LIMIT:
-            #append_nan_results_to_csv(len(N0))
+            append_nan_results_to_csv(len(N0))
             print(f"Gurobi time limit reached for customer size {len(N0)}")
         else:
             # After optimization
@@ -286,4 +286,4 @@ for xxx in range(5,51):
             print(f"Number of Vehicles Used: {vehicles_used}")
             weighted_load = calculate_weighted_load(xVar, flow, Dist, a_ij, W)
             print(f"Weighted Load: {weighted_load}")
-            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time,weighted_load)
+            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time,weighted_load)
