@@ -169,7 +169,7 @@ for xxx in range(5,51):
         relN = relevantcustomers(inp,Nstart)
         Dist = relevantdistances(inp,Distall)
         Archs = tupls(xxx)
-        lvl = levels((40000/60), (100000/60), 60)
+        lvl = levels((40/3.6), (100/3.6), 60)
         tj0 =tj00(lvl,Dist)
         angl = ang(relN[:, :3])
         a_ij = aij(0, 0.01, angl)
