@@ -162,7 +162,7 @@ def append_nan_results_to_csv(customers, filepath='output/outprpsize10.csv'):
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
 
 for xxx in range(5,51):
-    for a in range(30):
+    for a in range(10):
         #set parameters
         inp = relevantcusta(xxx,Nstart)
         relN = relevantcustomers(inp,Nstart)
@@ -262,7 +262,7 @@ for xxx in range(5,51):
                 if i != j:
                     prp.addConstr(x[i, j] + x[j, i] <= 1, name='subtourbreaking')
         ##set params
-        prp.setParam('TimeLimit', 600)
+        prp.setParam('TimeLimit', 900)
         prp.setParam('OutputFlag', 0)
 
         prp.update()
