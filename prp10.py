@@ -23,7 +23,7 @@ Nstart = np.load('N.npy')
 np.random.seed(37)
 
 ## set joules in liter diesel
-H = 38000000
+H = 37848258
 
 # Set up the possible combinations
 def tupls(a):
@@ -192,7 +192,7 @@ for xxx in range(5,51):
         K = np.arange(m)
         Q = 3500  # Capacity
         W = 3500  # curb weight
-        p = 1
+        p = 1/60
         cfe = 2  # cost for fuel and emissions
         BIGM = 999999999  ##bigM
 
@@ -219,10 +219,9 @@ for xxx in range(5,51):
         zfpe = quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(
             a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(
             Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j in N)
-        zfprp = quicksum(cfe * a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(
-            cfe * a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(
-            cfe * Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j
-            in N) + quicksum(p * s[j] * x[j, 0] for j in N0)
+        zfprp = ((quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(
+            Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j
+            in N))/H)*cfe + quicksum(p * s[j] * x[j, 0] for j in N0)
         prp.setObjective(zfprp, GRB.MINIMIZE)
 
         ## costraints
