@@ -21,6 +21,10 @@ Nstart = np.load('N.npy')
 
 ## set seed
 np.random.seed(37)
+
+## set joules in liter diesel
+H = 37848258
+
 # Set up the possible combinations
 def tupls(a):
     return np.array([(i, j) for i in range(a+1) for j in range(a+1) if i != j])
@@ -118,7 +122,7 @@ def calculate_average_speed(xVar, Dist, speed, lvl):
     return total_distance / total_time
 
 # prp cost calc
-def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl):
+def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl, eff, H, enn, p, s, N0):
     total_cost = 0
     for (i, j) in xVar.keys():
         if xVar[i, j] == 1:
@@ -127,6 +131,7 @@ def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl):
             for r in range(len(lvl)):
                 if z[i, j, r].X > 0.5:
                     total_cost += cfe * Dist[i, j] * betaa * (lvl[r] ** 2)
+    total_cost = ((total_cost / (eff * H * enn)) * cfe) + sum(p * s[j] * xVar[j, 0] for j in N0 if xVar[j, 0] == 1)
     return total_cost
 
 #calc vehicles
@@ -158,7 +163,7 @@ def append_nan_results_to_csv(customers, filepath='output/outpeserver.csv'):
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
 
 for xxx in range(5,51):
-    for a in range(30):
+    for a in range(10):
         #set parameters
         inp = relevantcusta(xxx,Nstart)
         relN = relevantcustomers(inp,Nstart)
@@ -191,6 +196,8 @@ for xxx in range(5,51):
         p = 1
         cfe = 2  # cost for fuel and emissions
         BIGM = 999999999  ##bigM
+        eff = 0.39
+        enn = 0.45
 
         options = {
             # configure()
@@ -212,9 +219,9 @@ for xxx in range(5,51):
         zfpd = quicksum(x[i, j] * Dist[i, j] for i in N for j in N)
         zfpl = quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(
             a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N)
-        zfpe = quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(
+        zfpe = (quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(
             a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(
-            Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j in N)
+            Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j in N)/(eff * H * enn))
         zfprp = quicksum(cfe * a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(
             cfe * a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(
             cfe * Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j
@@ -258,7 +265,7 @@ for xxx in range(5,51):
                 if i != j:
                     prp.addConstr(x[i, j] + x[j, i] <= 1, name='subtourbreaking')
         ##set params
-        prp.setParam('TimeLimit', 600)
+        prp.setParam('TimeLimit', 900)
         prp.setParam('OutputFlag', 0)
 
         prp.update()
@@ -279,11 +286,11 @@ for xxx in range(5,51):
             average_speed = calculate_average_speed(xVar, Dist, speed, lvl)
             print(f"Average Speed of Vehicles: {average_speed:.2f}")
             flow = prp.getAttr('x', f)
-            total_costs = calculate_total_costs(xVar, flow, Dist, a_ij, cfe, W, betaa, lvl)
+            ss = prp.getAttr('x', s)
+            total_costs = calculate_total_costs(xVar, flow, Dist, a_ij, cfe, W, betaa, lvl, eff, H, enn, p, ss, N0)
             print(f"Total Costs: {total_costs}")
             vehicles_used = calculate_vehicles_used(xVar, N0)
             print(f"Number of Vehicles Used: {vehicles_used}")
             weighted_load = calculate_weighted_load(xVar, flow, Dist, a_ij, W)
             print(f"Weighted Load: {weighted_load}")
             append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time,weighted_load)
-
