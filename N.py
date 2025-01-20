@@ -21,7 +21,7 @@ q = np.random.uniform(400,600, size =(500,1) )
 
 ## dropoff windows between 0 and 720 minutes
 a = np.zeros((500,1))
-b = np.full((500,1), 720)
+b = np.full((500,1), 43200)
 
 ## merge into 1 array
 N = np.hstack((coordinates, h, q, a, b))

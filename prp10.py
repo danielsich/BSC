@@ -22,6 +22,9 @@ Nstart = np.load('N.npy')
 ## set seed
 np.random.seed(37)
 
+## set joules in liter diesel
+H = 38000000
+
 # Set up the possible combinations
 def tupls(a):
     return np.array([(i, j) for i in range(a+1) for j in range(a+1) if i != j])
@@ -165,7 +168,7 @@ for xxx in range(5,51):
         relN = relevantcustomers(inp,Nstart)
         Dist = relevantdistances(inp,Distall)
         Archs = tupls(xxx)
-        lvl = levels((40000/60), (100000/60), 60)
+        lvl = levels((40/3.6), (100/3.6), 60)
         tj0 =tj00(lvl,Dist)
         angl = ang(relN[:, :3])
         a_ij = aij(0, 0.01, angl)
@@ -266,7 +269,7 @@ for xxx in range(5,51):
         prp.optimize()
 
         if prp.Status == GRB.TIME_LIMIT:
-            append_nan_results_to_csv(len(N0))
+            #append_nan_results_to_csv(len(N0))
             print(f"Gurobi time limit reached for customer size {len(N0)}")
         else:
             # After optimization
@@ -286,5 +289,5 @@ for xxx in range(5,51):
             print(f"Number of Vehicles Used: {vehicles_used}")
             weighted_load = calculate_weighted_load(xVar, flow, Dist, a_ij, W)
             print(f"Weighted Load: {weighted_load}")
-            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time,weighted_load)
+            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time,weighted_load)
 
