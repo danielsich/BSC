@@ -122,7 +122,7 @@ def calculate_average_speed(xVar, Dist, speed, lvl):
     return total_distance / total_time
 
 # prp cost calc
-def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl):
+def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl, eff, H, enn, p, s, N0):
     total_cost = 0
     for (i, j) in xVar.keys():
         if xVar[i, j] == 1:
@@ -131,6 +131,7 @@ def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl):
             for r in range(len(lvl)):
                 if z[i, j, r].X > 0.5:
                     total_cost += cfe * Dist[i, j] * betaa * (lvl[r] ** 2)
+    total_cost = ((total_cost / (eff * H * enn)) * cfe) + sum(p * s[j].X * xVar[j, 0] for j in N0 if xVar[j, 0] == 1)
     return total_cost
 
 #calc vehicles
@@ -284,8 +285,8 @@ for xxx in range(5,51):
             average_speed = calculate_average_speed(xVar, Dist, speed, lvl)
             print(f"Average Speed of Vehicles: {average_speed:.2f}")
             flow = prp.getAttr('x', f)
-            total_costs = calculate_total_costs(xVar, flow, Dist, a_ij, cfe, W, betaa, lvl)
-            print(f"Total Costs: {total_costs}")
+            ss = prp.getAttr('x', s)
+            total_costs = calculate_total_costs(xVar, flow, Dist, a_ij, cfe, W, betaa, lvl, eff, H, enn, p, ss, N0)            print(f"Total Costs: {total_costs}")
             vehicles_used = calculate_vehicles_used(xVar, N0)
             print(f"Number of Vehicles Used: {vehicles_used}")
             weighted_load = calculate_weighted_load(xVar, flow, Dist, a_ij, W)
