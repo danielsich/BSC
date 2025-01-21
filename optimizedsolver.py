@@ -222,10 +222,7 @@ for xxx in range(5,51):
         zfpe = quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(
             a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(
             Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j in N)
-        zfprp = quicksum(cfe * a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(
-            cfe * a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(
-            cfe * Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j
-            in N) + quicksum(p * s[j] * x[j, 0] for j in N0)
+        zfprp = ((quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j in N))/(eff * H * enn))*cfe + quicksum(p * s[j] * x[j, 0] for j in N0)
         prp.setObjective(zfprp, GRB.MINIMIZE)
 
         ## costraints
@@ -272,7 +269,7 @@ for xxx in range(5,51):
         prp.optimize()
 
         if prp.Status == GRB.TIME_LIMIT:
-            append_nan_results_to_csv(len(N0))
+           #append_nan_results_to_csv(len(N0))
             print(f"Gurobi time limit reached for customer size {len(N0)}")
         else:
             # After optimization
@@ -293,4 +290,4 @@ for xxx in range(5,51):
             print(f"Number of Vehicles Used: {vehicles_used}")
             weighted_load = calculate_weighted_load(xVar, flow, Dist, a_ij, W)
             print(f"Weighted Load: {weighted_load}")
-            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load)
+            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load)
