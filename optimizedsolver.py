@@ -222,7 +222,7 @@ for xxx in range(5,51):
         zfpe = quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(
             a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(
             Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j in N)
-        zfprp = ((quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j in N))/(eff * H * enn))*cfe + quicksum(p * s[j] * x[j, 0] for j in N0)
+        zfprp = ((quicksum(a_ij[i, j] * Dist[i, j] * W * x[i, j] for i in N for j in N) + quicksum(a_ij[i, j] * f[i, j] * Dist[i, j] for i in N for j in N) + quicksum(Dist[i, j] * betaa * (quicksum((lvl[r] ** 2) * z[i, j, r] for r in range(lvl.shape[0]))) for i in N for j in N))/(eff * H * enn))* cfe + quicksum(p * s[j] * x[j, 0] for j in N0)
         prp.setObjective(zfprp, GRB.MINIMIZE)
 
         ## costraints
