@@ -155,17 +155,28 @@ def calculate_weighted_load(xVar, f, Dist, a_ij, W):
             weighted_load += a_ij[i, j] * Dist[i, j] * W
             weighted_load += a_ij[i, j] * f[i, j] * Dist[i, j]
     return weighted_load
+
+# positive height diff total
+def calculate_positive_height_differences(xVar, relN):
+    total_positive_height_diff = 0
+    for (i, j) in xVar.keys():
+        if xVar[i, j] == 1:
+            height_diff = relN[j, 2] - relN[i, 2]
+            if height_diff > 0:
+                total_positive_height_diff += height_diff
+    return total_positive_height_diff
+
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, filepath='output/outpdsizeserver.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff, filepath='output/outpdsizeserver.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load])
+        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load,positive_height_diff])
 
 # apennd results when time limit is reached
 def append_nan_results_to_csv(customers, filepath='output/outpdsizeserver.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
+        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan])
 
 for xxx in range(5,51):
     for a in range(10):
@@ -301,4 +312,6 @@ for xxx in range(5,51):
             print(f"Number of Vehicles Used: {vehicles_used}")
             weighted_load = calculate_weighted_load(xVar, flow, Dist, a_ij, W)
             print(f"Weighted Load: {weighted_load}")
-            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load)
+            positive_height_diff = calculate_positive_height_differences(xVar, relN)
+            print(f"Positive Height Differences: {positive_height_diff}")
+            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff)
