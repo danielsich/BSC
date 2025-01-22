@@ -286,7 +286,7 @@ for xxx in range(5,51):
         prp.optimize()
 
         if prp.Status == GRB.TIME_LIMIT:
-            #append_nan_results_to_csv(len(N0))
+            append_nan_results_to_csv(len(N0))
             print(f"Gurobi time limit reached for customer size {len(N0)}")
         else:
             # After optimization
@@ -309,5 +309,5 @@ for xxx in range(5,51):
             print(f"Weighted Load: {weighted_load}")
             positive_height_diff = calculate_positive_height_differences(xVar, relN)
             print(f"Positive Height Differences: {positive_height_diff}")
-            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time,weighted_load,positive_height_diff)
+            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time,weighted_load,positive_height_diff)
 
