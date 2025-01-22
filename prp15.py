@@ -174,11 +174,11 @@ for xxx in range(5,51):
         relN = relevantcustomers(inp,Nstart)
         Dist = relevantdistances(inp,Distall)
         Archs = tupls(xxx)
-        lvl = levels((40/3.6), (100/3.6), 60)
+        lvl = levels((40/3.6), (90/3.6), 60)
         tj0 =tj00(lvl,Dist)
         angl = ang(relN[:, :3])
         a_ij = aij(0, 0.01, angl)
-        betaa = b(0.35, 5, 1.2041)
+        betaa = b(0.7, 4.78, 1.2041)
 
         ## customers
         N0d = relN[1:]  # information all customers
@@ -196,13 +196,13 @@ for xxx in range(5,51):
         ##Vehicles
         m = 9  # amount
         K = np.arange(m)
-        Q = 3500  # Capacity
-        W = 3500  # curb weight
+        Q = 2943  # Capacity
+        W = 2557  # curb weight
         p = 1/60
         cfe = 2  # cost for fuel and emissions
         BIGM = 999999999  ##bigM
-        eff = 0.39
-        enn = 0.45
+        eff = 0.37
+        enn = 1
 
         options = {
             # configure()
