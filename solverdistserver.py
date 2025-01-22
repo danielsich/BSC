@@ -76,16 +76,21 @@ def tj00(levels, Dist):
 # angle calculation
 def ang(N):
     n = N.shape[0]
-    ang = np.zeros((n, n))
+    ang = np.zeros((n, n), dtype=float)
     for i in range(n):
         for j in range(n):
-            if (i != j):
-                dot = np.dot(N[i], N[j])
-                magi = np.linalg.norm(N[i])
-                magj = np.linalg.norm(N[j])
-                cos_theta = dot / (magi * magj)
-                cos_theta = np.clip(cos_theta,-1.0, 1.0)
-                ang[i, j] = np.arccos(cos_theta)
+            if i != j:
+                dx = N[j, 0] - N[i, 0]  # x_j - x_i
+                dy = N[j, 1] - N[i, 1]  # y_j - y_i
+                dh = N[j, 2] - N[i, 2]  # h_j - h_i
+                dist2D = np.sqrt(dx ** 2 + dy ** 2)
+
+                if dist2D == 0:
+                    ang[i, j] = 0.0
+
+                else:
+                    ang[i, j] = np.arctan2(dh, dist2D)
+
     return ang
 
 # constant calc arch
@@ -126,11 +131,11 @@ def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl, eff, H, enn, 
     total_cost = 0
     for (i, j) in xVar.keys():
         if xVar[i, j] == 1:
-            total_cost += cfe * a_ij[i, j] * Dist[i, j] * W
-            total_cost += cfe * a_ij[i, j] * f[i, j] * Dist[i, j]
+            total_cost += a_ij[i, j] * Dist[i, j] * W
+            total_cost += a_ij[i, j] * f[i, j] * Dist[i, j]
             for r in range(len(lvl)):
                 if z[i, j, r].X > 0.5:
-                    total_cost += cfe * Dist[i, j] * betaa * (lvl[r] ** 2)
+                    total_cost += Dist[i, j] * betaa * (lvl[r] ** 2)
     total_cost = ((total_cost / (eff * H * enn)) * cfe) + sum(p * s[j] * xVar[j, 0] for j in N0 if xVar[j, 0] == 1)
     return total_cost
 
@@ -173,7 +178,7 @@ for xxx in range(5,51):
         tj0 =tj00(lvl,Dist)
         angl = ang(relN[:, :3])
         a_ij = aij(0, 0.01, angl)
-        betaa = b(0.7, 5, 1.2041)
+        betaa = b(0.35, 5, 1.2041)
 
         ## customers
         N0d = relN[1:]  # information all customers
