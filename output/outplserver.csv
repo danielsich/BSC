@@ -1,1 +1,1 @@
-customers, averagespeed, distance, vehicles, costs,tts, weightedload
+customers,averagespeed,distance,vehicles,costs,tts,weighted_load,positive_height_diff,total_fuel,driver_pay
