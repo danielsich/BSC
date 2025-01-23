@@ -139,6 +139,23 @@ def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl, eff, H, enn, 
     total_cost = ((total_cost / (eff * H * enn)) * cfe) + sum(p * s[j] * xVar[j, 0] for j in N0 if xVar[j, 0] == 1)
     return total_cost
 
+#driver cost calc
+def calculate_driver_pay(xVar, p, s, N0):
+    return sum(p * s[j] * xVar[j, 0] for j in N0 if xVar[j, 0] == 1)
+
+#fuel consumtion
+def calculate_total_fuel(xVar, f, Dist, a_ij, W, betaa, lvl, eff, H, enn):
+    total_cost = 0
+    for (i, j) in xVar.keys():
+        if xVar[i, j] == 1:
+            total_cost += a_ij[i, j] * Dist[i, j] * W
+            total_cost += a_ij[i, j] * f[i, j] * Dist[i, j]
+            for r in range(len(lvl)):
+                if z[i, j, r].X > 0.5:
+                    total_cost += Dist[i, j] * betaa * (lvl[r] ** 2)
+    total_cost = (total_cost / (eff * H * enn))
+    return total_cost
+
 #calc vehicles
 def calculate_vehicles_used(xVar, N0):
     vehicles_used = 0
@@ -167,17 +184,17 @@ def calculate_positive_height_differences(xVar, relN):
     return total_positive_height_diff
 
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff, filepath='output/outopt.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff,total_fuel, driver_pay, filepath='output/outopt.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load,positive_height_diff])
+        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load,positive_height_diff,total_fuel, driver_pay])
 # apennd results when time limit is reached
 def append_nan_results_to_csv(customers, filepath='output/outopt.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
+        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan])
 
-for xxx in range(10,51):
+for xxx in range(5,51):
     for a in range(10):
         #set parameters
         inp = relevantcusta(xxx,Nstart)
@@ -313,4 +330,8 @@ for xxx in range(10,51):
             print(f"Weighted Load: {weighted_load}")
             positive_height_diff = calculate_positive_height_differences(xVar, relN)
             print(f"Positive Height Differences: {positive_height_diff}")
-            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff)
+            total_fuel = calculate_total_fuel(xVar, f, Dist, a_ij, W, betaa, lvl, eff, H, enn)
+            print(f"Total fuel: {total_fuel}")
+            driver_pay = calculate_driver_pay(xVar, p, s, N0)
+            print(f"Driver cost: {driver_pay}")
+            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff,total_fuel, driver_pay)
