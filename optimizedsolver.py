@@ -177,7 +177,7 @@ def append_nan_results_to_csv(customers, filepath='output/outopt.csv'):
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan])
 
-for xxx in range(5,51):
+for xxx in range(10,51):
     for a in range(10):
         #set parameters
         inp = relevantcusta(xxx,Nstart)
@@ -279,13 +279,17 @@ for xxx in range(5,51):
         ##set params
         prp.setParam('TimeLimit', 900)
         prp.setParam('OutputFlag', 0)
+        prp.setParam('MIPFocus',1)
+        prp.setParam('Heuristics', 0.2)
+        prp.setParam('Cuts', 2)
+        prp.setParam('Presolve', 2)
 
         prp.update()
         prp.optimize()
 
 
         if prp.Status == GRB.TIME_LIMIT:
-            append_nan_results_to_csv(len(N0))
+            #append_nan_results_to_csv(len(N0))
             print(f"Gurobi time limit reached for customer size {len(N0)}")
 
         else:
@@ -309,4 +313,4 @@ for xxx in range(5,51):
             print(f"Weighted Load: {weighted_load}")
             positive_height_diff = calculate_positive_height_differences(xVar, relN)
             print(f"Positive Height Differences: {positive_height_diff}")
-            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff)
+            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff)
