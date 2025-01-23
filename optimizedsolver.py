@@ -141,20 +141,23 @@ def calculate_total_costs(xVar, f, Dist, a_ij, cfe, W, betaa, lvl, eff, H, enn, 
 
 #driver cost calc
 def calculate_driver_pay(xVar, p, s, N0):
-    return sum(p * s[j] * xVar[j, 0] for j in N0 if xVar[j, 0] == 1)
-
+    driver_pay = 0
+    for j in N0:
+        if xVar[j, 0] == 1:
+            driver_pay += p * s[j].X
+    return driver_pay
 #fuel consumtion
 def calculate_total_fuel(xVar, f, Dist, a_ij, W, betaa, lvl, eff, H, enn):
-    total_cost = 0
+    total_fuel = 0
     for (i, j) in xVar.keys():
-        if xVar[i, j] == 1:
-            total_cost += a_ij[i, j] * Dist[i, j] * W
-            total_cost += a_ij[i, j] * f[i, j] * Dist[i, j]
+        if xVar[i, j]== 1:  # Use .X to get the value of the variable
+            total_fuel += a_ij[i, j] * Dist[i, j] * W
+            total_fuel += a_ij[i, j] * f[i, j].X * Dist[i, j]  # Use .X to get the value of the variable
             for r in range(len(lvl)):
                 if z[i, j, r].X > 0.5:
-                    total_cost += Dist[i, j] * betaa * (lvl[r] ** 2)
-    total_cost = (total_cost / (eff * H * enn))
-    return total_cost
+                    total_fuel += Dist[i, j] * betaa * (lvl[r] ** 2)
+    total_fuel = total_fuel / (eff * H * enn)
+    return total_fuel
 
 #calc vehicles
 def calculate_vehicles_used(xVar, N0):
@@ -294,7 +297,7 @@ for xxx in range(5,51):
                 if i != j:
                     prp.addConstr(x[i, j] + x[j, i] <= 1, name='subtourbreaking')
         ##set params
-        prp.setParam('TimeLimit', 900)
+        prp.setParam('TimeLimit', 1800)
         prp.setParam('OutputFlag', 0)
         prp.setParam('MIPFocus',1)
         prp.setParam('Heuristics', 0.2)
@@ -306,7 +309,7 @@ for xxx in range(5,51):
 
 
         if prp.Status == GRB.TIME_LIMIT:
-            #append_nan_results_to_csv(len(N0))
+            append_nan_results_to_csv(len(N0))
             print(f"Gurobi time limit reached for customer size {len(N0)}")
 
         else:
@@ -334,4 +337,4 @@ for xxx in range(5,51):
             print(f"Total fuel: {total_fuel}")
             driver_pay = calculate_driver_pay(xVar, p, s, N0)
             print(f"Driver cost: {driver_pay}")
-            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff,total_fuel, driver_pay)
+            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff,total_fuel, driver_pay)
