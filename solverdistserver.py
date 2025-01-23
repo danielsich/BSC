@@ -185,7 +185,7 @@ for xxx in range(5,51):
         relN = relevantcustomers(inp,Nstart)
         Dist = relevantdistances(inp,Distall)
         Archs = tupls(xxx)
-        lvl = levels((40/3.6), (90/3.6), 60)
+        lvl = levels((40/3.6), (90/3.6), 10)
         tj0 =tj00(lvl,Dist)
         angl = ang(relN[:, :3])
         a_ij = aij(0, 0.01, angl)
@@ -199,7 +199,7 @@ for xxx in range(5,51):
         Nq = N.shape[0]  # number edges
         N0q = N0.shape[0]  # number customers
         qi = relN[:, 3]  # Demand Customer
-        ti = 1  # service time
+        ti = 300  # service time
         ai = relN[:, 4]  # earliest time
         bi = relN[:, 5]  # latest time
 
@@ -284,7 +284,7 @@ for xxx in range(5,51):
                 if i != j:
                     prp.addConstr(x[i, j] + x[j, i] <= 1, name='subtourbreaking')
         ##set params
-        prp.setParam('TimeLimit', 600)
+        prp.setParam('TimeLimit', 900)
         prp.setParam('OutputFlag', 0)
 
         prp.update()

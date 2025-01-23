@@ -184,7 +184,7 @@ for xxx in range(5,51):
         relN = relevantcustomers(inp,Nstart)
         Dist = relevantdistances(inp,Distall)
         Archs = tupls(xxx)
-        lvl = levels((40/3.6), (90/3.6), 60)
+        lvl = levels((40/3.6), (90/3.6), 10)
         tj0 =tj00(lvl,Dist)
         angl = ang(relN[:, :3])
         a_ij = aij(0, 0.01, angl)
@@ -198,11 +198,11 @@ for xxx in range(5,51):
         Nq = N.shape[0]  # number edges
         N0q = N0.shape[0]  # number customers
         qi = relN[:, 3]  # Demand Customer
-        ti = 1  # service time
+        ti = 300  # service time
         ai = relN[:, 4]  # earliest time
         bi = relN[:, 5]  # latest time
 
-        # print(qi)
+        print(bi)
         ##Vehicles
         m = 9  # amount
         K = np.arange(m)
@@ -259,8 +259,8 @@ for xxx in range(5,51):
 
         for i in N0:
             prp.addConstr(y[i] + ti - s[i] + quicksum((Dist[i, 0] / lvl[r]) * z[i, 0, r] for r in range(lvl.shape[0])) <= BIGM * (1 - x[i, 0]), name=f"con_17_{i}")
-            prp.addConstr(y[i] - quicksum( quicksum(max(0, ai[j] - ai[i] + ti + Dist[j, i] / lvl[r]) * z[j, i, r] for r in range(lvl.shape[0])) for j in range(Nq)) >= ai[i], name=f"con_16_low_{i}")
-            prp.addConstr(y[i] + quicksum( quicksum(max(0, bi[i] - bi[j] + ti + Dist[i, j] / lvl[r]) * z[i, j, r] for r in range(lvl.shape[0])) for j in range(Nq)) <= bi[i], name=f"con16_high_{i}")
+            prp.addConstr(y[i] - quicksum( quicksum(max(0, ai[j] - ai[i] + ti + (Dist[j, i] / lvl[r])) * z[j, i, r] for r in range(lvl.shape[0])) for j in range(Nq)) >= ai[i], name=f"con_16_low_{i}")
+            prp.addConstr(y[i] + quicksum( quicksum(max(0, bi[i] - bi[j] + ti + (Dist[i, j] / lvl[r])) * z[i, j, r] for r in range(lvl.shape[0])) for j in range(Nq)) <= bi[i], name=f"con16_high_{i}")
 
         for i, j in Archs:
             prp.addConstr(quicksum(z[i, j, r] for r in range(lvl.shape[0])) == x[i, j], name=f"con_18_{i}_{j}")
@@ -283,9 +283,11 @@ for xxx in range(5,51):
         prp.update()
         prp.optimize()
 
+
         if prp.Status == GRB.TIME_LIMIT:
-           #append_nan_results_to_csv(len(N0))
+            append_nan_results_to_csv(len(N0))
             print(f"Gurobi time limit reached for customer size {len(N0)}")
+
         else:
             # After optimization
             end_time = time.time()
@@ -307,4 +309,4 @@ for xxx in range(5,51):
             print(f"Weighted Load: {weighted_load}")
             positive_height_diff = calculate_positive_height_differences(xVar, relN)
             print(f"Positive Height Differences: {positive_height_diff}")
-            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff)
+            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff)
