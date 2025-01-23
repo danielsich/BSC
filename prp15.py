@@ -228,8 +228,8 @@ for xxx in range(10,51):
         K = np.arange(m)
         Q = 2943  # Capacity
         W = 2557  # curb weight
-        p = 1/60
-        cfe = 2  # cost for fuel and emissions
+        p = 0.41/60
+        cfe = 1.75  # cost for fuel and emissions
         BIGM = 999999999  ##bigM
         eff = 0.37
         enn = 1
