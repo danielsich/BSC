@@ -197,8 +197,8 @@ def append_nan_results_to_csv(customers, filepath='output/outopt.csv'):
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan])
 
-for xxx in range(5,51):
-    for a in range(10):
+for xxx in range(5,6):
+    for a in range(1):
         #set parameters
         inp = relevantcusta(xxx,Nstart)
         relN = relevantcustomers(inp,Nstart)
@@ -221,7 +221,7 @@ for xxx in range(5,51):
         ti = 300  # service time
         ai = relN[:, 4]  # earliest time
         bi = relN[:, 5]  # latest time
-
+        print(ai)
         print(bi)
         ##Vehicles
         m = 9  # amount
