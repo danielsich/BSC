@@ -197,42 +197,45 @@ def append_nan_results_to_csv(customers, filepath='output/outopt.csv'):
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan])
 
-for xxx in range(5,6):
-    for a in range(1):
-        #set parameters
-        inp = relevantcusta(xxx,Nstart)
-        relN = relevantcustomers(inp,Nstart)
-        Dist = relevantdistances(inp,Distall)
-        Archs = tupls(xxx)
-        lvl = levels((40/3.6), (90/3.6), 10)
-        tj0 =tj00(lvl,Dist)
-        angl = ang(relN[:, :3])
-        a_ij = aij(0, 0.01, angl)
-        betaa = b(0.7, 4.78, 1.2041)
+for xxx in range(8,9):
+    #set parameters
+    inp = relevantcusta(xxx,Nstart)
+    relN = relevantcustomers(inp,Nstart)
+    Dist = relevantdistances(inp,Distall)
+    Archs = tupls(xxx)
+    lvl = levels((40/3.6), (90/3.6), 10)
+    tj0 =tj00(lvl,Dist)
+    angl = ang(relN[:, :3])
+    a_ij = aij(0, 0.01, angl)
+    betaa = b(0.7, 4.78, 1.2041)
 
-        ## customers
-        N0d = relN[1:]  # information all customers
+    ## customers
+    N0d = relN[1:]  # information all customers
 
-        N = np.arange(relN.shape[0])  # All edges
-        N0 = N[1:]  # alle customer edges
-        Nq = N.shape[0]  # number edges
-        N0q = N0.shape[0]  # number customers
-        qi = relN[:, 3]  # Demand Customer
-        ti = 300  # service time
-        ai = relN[:, 4]  # earliest time
-        bi = relN[:, 5]  # latest time
-        print(ai)
-        print(bi)
-        ##Vehicles
-        m = 9  # amount
-        K = np.arange(m)
-        Q = 2943  # Capacity
-        W = 2557  # curb weight
-        p = 0.41/60
-        cfe = 1.75  # cost for fuel and emissions
-        BIGM = 999999999  ##bigM
-        eff = 0.37
-        enn = 1
+    N = np.arange(relN.shape[0])  # All edges
+    N0 = N[1:]  # alle customer edges
+    Nq = N.shape[0]  # number edges
+    N0q = N0.shape[0]  # number customers
+    qi = relN[:, 3]  # Demand Customer
+    ti = 300  # service time
+    ##Vehicles
+    m = 9  # amount
+    K = np.arange(m)
+    Q = 2943  # Capacity
+    W = 2557  # curb weight
+    p = 0.41/60
+    cfe = 1.75  # cost for fuel and emissions
+    BIGM = 999999999  ##bigM
+    eff = 0.37
+    enn = 1
+    for a in range(1,6):
+        #time windows
+        ai = np.min(tj0, axis=1)    #earliest
+        bi = np.full(len(relN), 43200) # latest and include depot correct
+        bi[1:] = 43200 - (ti + np.min(tj0, axis=1)[1:]) #latest so that customers are correct
+        diff = bi - ai - (a*15 + 900) #difference minus timewindows
+        print(a)
+        print(diff)
 
         options = {
             # configure()
