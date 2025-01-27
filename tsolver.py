@@ -306,7 +306,7 @@ for xxx in range(8,51):
                 if i != j:
                     prp.addConstr(x[i, j] + x[j, i] <= 1, name='subtourbreaking')
         ##set params
-        prp.setParam('TimeLimit', 1800)
+        prp.setParam('TimeLimit', 900)
         prp.setParam('OutputFlag', 0)
         prp.setParam('MIPFocus',1)
         prp.setParam('Heuristics', 0.2)
