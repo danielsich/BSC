@@ -187,17 +187,17 @@ def calculate_positive_height_differences(xVar, relN):
     return total_positive_height_diff
 
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff,total_fuel, driver_pay, filepath='output/outopt.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff,total_fuel, driver_pay,timewindow, filepath='time/out.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load,positive_height_diff,total_fuel, driver_pay])
+        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load,positive_height_diff,total_fuel, driver_pay,timewindow])
 # apennd results when time limit is reached
-def append_nan_results_to_csv(customers, filepath='output/outopt.csv'):
+def append_nan_results_to_csv(customers,timewindow, filepath='time/out.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan])
+        csvwriter.writerow([customers,timewindow, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan])
 
-for xxx in range(8,9):
+for xxx in range(8,51):
     #set parameters
     inp = relevantcusta(xxx,Nstart)
     relN = relevantcustomers(inp,Nstart)
@@ -228,14 +228,20 @@ for xxx in range(8,9):
     BIGM = 999999999  ##bigM
     eff = 0.37
     enn = 1
-    for a in range(1,6):
+    for a in range(1,20):
         #time windows
         ai = np.min(tj0, axis=1)    #earliest
         bi = np.full(len(relN), 43200) # latest and include depot correct
         bi[1:] = 43200 - (ti + np.min(tj0, axis=1)[1:]) #latest so that customers are correct
         diff = bi - ai - (a*15 + 900) #difference minus timewindows
+        random_increment = np.zeros(len(ai))
+        random_increment[1:] = np.random.uniform(0, diff[1:], len(ai) - 1)
+        ai[1:] = ai[1:] + random_increment[1:]
+        bi[1:] = ai[1:] + (a*15*60 + 900)
+        differ = bi-ai
         print(a)
-        print(diff)
+        print(ai)
+        print(round(max(differ[1:])))
 
         options = {
             # configure()
@@ -312,7 +318,7 @@ for xxx in range(8,9):
 
 
         if prp.Status == GRB.TIME_LIMIT:
-            #append_nan_results_to_csv(len(N0))
+            append_nan_results_to_csv(len(N0),round(max(differ[1:])))
             print(f"Gurobi time limit reached for customer size {len(N0)}")
 
         else:
@@ -340,4 +346,4 @@ for xxx in range(8,9):
             print(f"Total fuel: {total_fuel}")
             driver_pay = calculate_driver_pay(xVar, p, s, N0)
             print(f"Driver cost: {driver_pay}")
-            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff,total_fuel, driver_pay)
+            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff,total_fuel, driver_pay,round(max(differ[1:])))
