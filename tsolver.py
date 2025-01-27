@@ -228,7 +228,7 @@ for xxx in range(8,51):
     BIGM = 999999999  ##bigM
     eff = 0.37
     enn = 1
-    for a in range(1,20):
+    for a in range(1,56):
         #time windows
         ai = np.min(tj0, axis=1)    #earliest
         bi = np.full(len(relN), 43200) # latest and include depot correct
@@ -237,7 +237,7 @@ for xxx in range(8,51):
         random_increment = np.zeros(len(ai))
         random_increment[1:] = np.random.uniform(0, diff[1:], len(ai) - 1)
         ai[1:] = ai[1:] + random_increment[1:]
-        bi[1:] = ai[1:] + (a*15*60 + 900)
+        bi[1:] = ai[1:] + (a*5*60 + 1500)
         differ = bi-ai
         print(a)
         print(ai)
