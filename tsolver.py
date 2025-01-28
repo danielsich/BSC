@@ -195,9 +195,9 @@ def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tt
 def append_nan_results_to_csv(customers,timewindow, filepath='time/out.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers,timewindow, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan])
+        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan, timewindow])
 
-for xxx in range(8,51):
+for xxx in range(23,51):
     #set parameters
     inp = relevantcusta(xxx,Nstart)
     relN = relevantcustomers(inp,Nstart)
@@ -320,6 +320,8 @@ for xxx in range(8,51):
         if prp.Status == GRB.TIME_LIMIT:
             append_nan_results_to_csv(len(N0),round(max(differ[1:])))
             print(f"Gurobi time limit reached for customer size {len(N0)}")
+            xxx += 1
+            a = 1
 
         else:
             # After optimization
