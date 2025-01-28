@@ -197,8 +197,8 @@ def append_nan_results_to_csv(customers,timewindow, filepath='time/out.csv'):
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan, timewindow])
 
-for xxx in range(23,51):
-    #set parameters
+xxx = 24
+while xxx < 51:    #set parameters
     inp = relevantcusta(xxx,Nstart)
     relN = relevantcustomers(inp,Nstart)
     Dist = relevantdistances(inp,Distall)
@@ -228,7 +228,9 @@ for xxx in range(23,51):
     BIGM = 999999999  ##bigM
     eff = 0.37
     enn = 1
-    for a in range(1,56):
+
+    a = 1
+    while a < 56:
         #time windows
         ai = np.min(tj0, axis=1)    #earliest
         bi = np.full(len(relN), 43200) # latest and include depot correct
@@ -322,6 +324,7 @@ for xxx in range(23,51):
             print(f"Gurobi time limit reached for customer size {len(N0)}")
             xxx += 1
             a = 1
+            break
 
         else:
             # After optimization
@@ -349,3 +352,6 @@ for xxx in range(23,51):
             driver_pay = calculate_driver_pay(xVar, p, s, N0)
             print(f"Driver cost: {driver_pay}")
             append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff,total_fuel, driver_pay,round(max(differ[1:])))
+            a += 1
+    else:
+        xxx += 1
