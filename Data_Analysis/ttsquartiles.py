@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # csv2Dataframe
-file_path = '../output/outopt.csv'
+file_path = '../output/outprpsize10.csv'
 df = pd.read_csv(file_path, na_values='nan')
 
 
@@ -25,7 +25,7 @@ plt.figure(figsize=(12,6))
 plt.plot(quartiles.index, quartiles['25%'], label='25% Quartil')
 plt.plot(quartiles.index, quartiles['50%'], label='50% Quartil')
 plt.plot(quartiles.index, quartiles['75%'], label='75% Quartil')
-plt.yscale('log')
+#plt.yscale('log')
 plt.xlabel('Kunden', fontsize=14)
 plt.ylabel('Rechenzeit',fontsize=14)
 plt.xticks(fontsize=14)
@@ -33,5 +33,5 @@ plt.yticks(fontsize=14)
 #plt.title('25%, 50%, und 75% Quartil je Kundenanzahl für das PRP')
 plt.legend(fontsize = 14)
 plt.grid(True)
-plt.savefig('../vis/tts_quartilesprpopt.svg', format='svg')
+#plt.savefig('../vis/tts_quartilesprpopt.svg', format='svg')
 plt.show()

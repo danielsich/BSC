@@ -19,7 +19,7 @@ average_cost_per_timewindow = grouped.median()
 
 # Filter only the groups where more than 25 values are available
 counts_per_timewindow = grouped.size()
-filtered_average_cost_per_timewindow = average_cost_per_timewindow[counts_per_timewindow > 25]
+filtered_average_cost_per_timewindow = average_cost_per_timewindow[counts_per_timewindow > 30]
 
 # Convert to DataFrame for seaborn
 filtered_df = filtered_average_cost_per_timewindow.reset_index()
