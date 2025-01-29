@@ -304,10 +304,10 @@ while xxx < 11:    #set parameters
         ##set params
         prp.setParam('TimeLimit', 900)
         prp.setParam('OutputFlag', 0)
-        prp.setParam('MIPFocus',1)
-        prp.setParam('Heuristics', 0.2)
-        prp.setParam('Cuts', 2)
-        prp.setParam('Presolve', 2)
+        #prp.setParam('MIPFocus',1)
+        #prp.setParam('Heuristics', 0.2)
+        #prp.setParam('Cuts', 2)
+        #prp.setParam('Presolve', 2)
 
         prp.update()
         prp.optimize()
