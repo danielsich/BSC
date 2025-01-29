@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # csv2Dataframe
-file_path = '../output/outpeserver.csv'
+file_path = '../output/outprpsize10.csv'
 df = pd.read_csv(file_path, na_values='nan')
 
 
@@ -33,5 +33,5 @@ plt.yticks(fontsize=14)
 #plt.title('25%, 50%, und 75% Quartil je Kundenanzahl für das PRP')
 plt.legend(fontsize = 14)
 plt.grid(True)
-plt.savefig('../vis/tts_quartilespe.svg', format='svg')
+plt.savefig('../vis/tts_quartilesprp.svg', format='svg')
 plt.show()
