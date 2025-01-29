@@ -20,6 +20,7 @@ plt.xlabel('Kunden')
 plt.ylabel('Zeitfenster')
 #plt.title('Timewindows where fe')
 plt.legend()
+plt.savefig('../vis/timeoutstw.svg', format='svg')
 
 # Show plot
 plt.show()
