@@ -187,15 +187,15 @@ def calculate_positive_height_differences(xVar, relN):
     return total_positive_height_diff
 
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff,total_fuel, driver_pay,eff, filepath='eff/eff8.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff,total_fuel, driver_pay,eff,a,xxx, filepath='eff/eff8.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load,positive_height_diff,total_fuel, driver_pay,eff])
+        csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load,positive_height_diff,total_fuel, driver_pay,eff,a,xxx])
 # apennd results when time limit is reached
-def append_nan_results_to_csv(customers,eff, filepath='eff/eff8.csv'):
+def append_nan_results_to_csv(customers,eff,a,xxx, filepath='eff/eff8.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
-        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan, eff])
+        csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan, eff,a,xxx])
 
 xxx = 1
 while xxx < 11:    #set parameters
@@ -314,7 +314,7 @@ while xxx < 11:    #set parameters
 
 
         if prp.Status == GRB.TIME_LIMIT:
-            append_nan_results_to_csv(len(N0),eff)
+            append_nan_results_to_csv(len(N0),eff,a,xxx)
             print(f"Gurobi time limit reached for customer size {len(N0)}")
             xxx += 1
             a = 1
@@ -345,7 +345,7 @@ while xxx < 11:    #set parameters
             print(f"Total fuel: {total_fuel}")
             driver_pay = calculate_driver_pay(xVar, p, s, N0)
             print(f"Driver cost: {driver_pay}")
-            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff,total_fuel, driver_pay,eff)
+            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff,total_fuel, driver_pay,eff,a,xxx)
             a += 1
     else:
         xxx += 1
