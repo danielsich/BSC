@@ -11,7 +11,7 @@ df = pd.read_csv(file_path, na_values='nan')
 df['tts'] = pd.to_numeric(df['tts'], errors='coerce')
 
 # nan.tts column with 600
-df['tts'].fillna(600, inplace=True)
+df['tts'].fillna(900, inplace=True)
 
 quartiles = df.groupby('customers')['tts'].quantile([0.25, 0.5, 0.75]).unstack()
 
