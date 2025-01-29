@@ -202,7 +202,7 @@ while xxx < 11:    #set parameters
     inp = relevantcusta(8,Nstart)
     relN = relevantcustomers(inp,Nstart)
     Dist = relevantdistances(inp,Distall)
-    Archs = tupls(xxx)
+    Archs = tupls(8)
     lvl = levels((40/3.6), (90/3.6), 10)
     tj0 =tj00(lvl,Dist)
     angl = ang(relN[:, :3])
