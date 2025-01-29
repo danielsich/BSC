@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # csv2Dataframe
-file_path = '../output/outprpsize10.csv'
+file_path = '../output/outopt.csv'
 df = pd.read_csv(file_path, na_values='nan')
 
 
@@ -11,7 +11,7 @@ df = pd.read_csv(file_path, na_values='nan')
 df['tts'] = pd.to_numeric(df['tts'], errors='coerce')
 
 # nan.tts column with 600
-df['tts'].fillna(900, inplace=True)
+df['tts'].fillna(1800, inplace=True)
 
 quartiles = df.groupby('customers')['tts'].quantile([0.25, 0.5, 0.75]).unstack()
 
@@ -33,5 +33,5 @@ plt.yticks(fontsize=14)
 #plt.title('25%, 50%, und 75% Quartil je Kundenanzahl für das PRP')
 plt.legend(fontsize = 14)
 plt.grid(True)
-plt.savefig('../vis/tts_quartilesprp.svg', format='svg')
+plt.savefig('../vis/tts_quartilesprpopt.svg', format='svg')
 plt.show()
