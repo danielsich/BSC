@@ -228,15 +228,15 @@ while xxx < 11:    #set parameters
     BIGM = 999999999  ##bigM
 
     enn = 1
-
+    # time windows
+    ai = np.min(tj0, axis=1)  # earliest
+    bi = np.full(len(relN), 43200)  # latest and include depot correct
+    bi[1:] = 43200 - (ti + np.min(tj0, axis=1)[1:])  # latest so that customers are correct
+    #diff = bi - ai - (a * 15 + 900)  # difference minus timewindows
+    differ = bi - ai
     a = 1
     while a < 101:
-        #time windows
-        ai = np.min(tj0, axis=1)    #earliest
-        bi = np.full(len(relN), 43200) # latest and include depot correct
-        bi[1:] = 43200 - (ti + np.min(tj0, axis=1)[1:]) #latest so that customers are correct
-        diff = bi - ai - (a*15 + 900) #difference minus timewindows
-        differ = bi-ai
+
         eff = 0.01*a
 
         options = {
