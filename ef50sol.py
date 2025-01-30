@@ -228,7 +228,16 @@ while xxx < 11:    #set parameters
     BIGM = 999999999  ##bigM
 
     enn = 1
-
+    # time windows
+    ai = np.min(tj0, axis=1)  # earliest
+    bi = np.full(len(relN), 43200)  # latest and include depot correct
+    bi[1:] = 43200 - (ti + np.min(tj0, axis=1)[1:])  # latest so that customers are correct
+    diff = bi - ai - (2700)  # difference minus timewindows
+    random_increment = np.zeros(len(ai))
+    random_increment[1:] = np.random.uniform(0, diff[1:], len(ai) - 1)
+    ai[1:] = ai[1:] + random_increment[1:]
+    bi[1:] = ai[1:] + (2700)
+    differ = bi - ai
 
     a = 1
     while a < 101:
@@ -236,7 +245,7 @@ while xxx < 11:    #set parameters
         ai = np.min(tj0, axis=1)  # earliest
         bi = np.full(len(relN), 43200)  # latest and include depot correct
         bi[1:] = 43200 - (ti + np.min(tj0, axis=1)[1:])  # latest so that customers are correct
-        diff = bi - ai - (a * 15 + 900)  # difference minus timewindows
+        diff = bi - ai - (2700)  # difference minus timewindows
         random_increment = np.zeros(len(ai))
         random_increment[1:] = np.random.uniform(0, diff[1:], len(ai) - 1)
         ai[1:] = ai[1:] + random_increment[1:]
