@@ -187,12 +187,12 @@ def calculate_positive_height_differences(xVar, relN):
     return total_positive_height_diff
 
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff,total_fuel, driver_pay,eff,a,xxx, filepath='eff/eff50.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff,total_fuel, driver_pay,eff,a,xxx, filepath='servicetime/s50.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load,positive_height_diff,total_fuel, driver_pay,eff,a,xxx])
 # apennd results when time limit is reached
-def append_nan_results_to_csv(customers,eff,a,xxx, filepath='eff/eff50.csv'):
+def append_nan_results_to_csv(customers,eff,a,xxx, filepath='servicetime/s50.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan, eff,a,xxx])
@@ -217,7 +217,6 @@ while xxx < 11:    #set parameters
     Nq = N.shape[0]  # number edges
     N0q = N0.shape[0]  # number customers
     qi = relN[:, 3]  # Demand Customer
-    ti = 300  # service time
     ##Vehicles
     m = 9  # amount
     K = np.arange(m)
@@ -227,6 +226,7 @@ while xxx < 11:    #set parameters
     cfe = 1.75  # cost for fuel and emissions
     BIGM = 999999999  ##bigM
 
+    eff = 0.37
     enn = 1
     # time windows
     ai = np.min(tj0, axis=1)  # earliest
@@ -240,9 +240,9 @@ while xxx < 11:    #set parameters
     differ = bi - ai
 
     a = 1
-    while a < 101:
-        ##efficiency multiplier
-        eff = 0.01*a
+    while a < 121:
+
+        ti = a*30  # service time
 
         options = {
             # configure()

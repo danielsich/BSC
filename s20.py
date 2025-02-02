@@ -187,22 +187,22 @@ def calculate_positive_height_differences(xVar, relN):
     return total_positive_height_diff
 
 #append results
-def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff,total_fuel, driver_pay,eff,a,xxx, filepath='eff/eff50.csv'):
+def append_results_to_csv(customers, averagespeed, distance, vehicles, costs, tts, weighted_load, positive_height_diff,total_fuel, driver_pay,eff,a,xxx, filepath='servicetime/s20.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, averagespeed, distance, vehicles, costs, tts, weighted_load,positive_height_diff,total_fuel, driver_pay,eff,a,xxx])
 # apennd results when time limit is reached
-def append_nan_results_to_csv(customers,eff,a,xxx, filepath='eff/eff50.csv'):
+def append_nan_results_to_csv(customers,eff,a,xxx, filepath='servicetime/s20.csv'):
     with open(filepath, 'a', newline='') as csvfile:
         csvwriter = csv.writer(csvfile)
         csvwriter.writerow([customers, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan, np.nan,np.nan,np.nan, eff,a,xxx])
 
 xxx = 1
 while xxx < 11:    #set parameters
-    inp = relevantcusta(50,Nstart)
+    inp = relevantcusta(20,Nstart)
     relN = relevantcustomers(inp,Nstart)
     Dist = relevantdistances(inp,Distall)
-    Archs = tupls(50)
+    Archs = tupls(20)
     lvl = levels((40/3.6), (90/3.6), 10)
     tj0 =tj00(lvl,Dist)
     angl = ang(relN[:, :3])
@@ -226,23 +226,24 @@ while xxx < 11:    #set parameters
     p = 0.41/60
     cfe = 1.75  # cost for fuel and emissions
     BIGM = 999999999  ##bigM
-
-    enn = 1
     # time windows
     ai = np.min(tj0, axis=1)  # earliest
     bi = np.full(len(relN), 43200)  # latest and include depot correct
     bi[1:] = 43200 - (ti + np.min(tj0, axis=1)[1:])  # latest so that customers are correct
-    diff = bi - ai - (2700)  # difference minus timewindows
+    diff = bi - ai - (9000)  # difference minus timewindows
     random_increment = np.zeros(len(ai))
     random_increment[1:] = np.random.uniform(0, diff[1:], len(ai) - 1)
     ai[1:] = ai[1:] + random_increment[1:]
-    bi[1:] = ai[1:] + (2700)
+    bi[1:] = ai[1:] + (9000)
     differ = bi - ai
+    eff = 0.37
+
+    enn = 1
 
     a = 1
-    while a < 101:
-        ##efficiency multiplier
-        eff = 0.01*a
+    while a < 121:
+
+        ti = a*30  # service time
 
         options = {
             # configure()
