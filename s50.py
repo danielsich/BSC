@@ -240,7 +240,7 @@ while xxx < 11:    #set parameters
     differ = bi - ai
 
     a = 1
-    while a < 121:
+    while a < 91:
 
         ti = a*30  # service time
 
