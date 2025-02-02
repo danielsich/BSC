@@ -225,7 +225,7 @@ while xxx < 11:    #set parameters
     p = 0.41/60
     cfe = 1.75  # cost for fuel and emissions
     BIGM = 999999999  ##bigM
-    ti = 300
+    ti = 3600
     eff = 0.37
     enn = 1
     # time windows
