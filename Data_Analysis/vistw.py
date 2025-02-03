@@ -17,7 +17,7 @@ plt.scatter(filtered_df['customers'], filtered_df['timewindows'], color='blue') 
 
 # Add labels and title
 plt.xlabel('Kunden')
-plt.ylabel('Zeitfenster')
+plt.ylabel('Minuten')
 #plt.title('Timewindows where fe')
 plt.legend()
 plt.savefig('../vis/timeoutstw.svg', format='svg')
