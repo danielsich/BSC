@@ -32,6 +32,8 @@ for name, file_path in file_paths.items():
     drivers_pay_percentage = (df['driver_pay'] / df['costs']) * 100
     drivers_pay_percentage_dict[name] = drivers_pay_percentage.mean()
 
+for model, percentage in drivers_pay_percentage_dict.items():
+    print(f"{label_mapping[model]}: {percentage:.2f}%")
 # Plotting
 plt.figure(figsize=(12, 6))
 
