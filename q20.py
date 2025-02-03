@@ -219,7 +219,7 @@ while xxx < 11:    #set parameters
     qi = relN[:, 3]  # Demand Customer
     ti = 300  # service time
     ##Vehicles
-    m = 9  # amount
+    m = 99  # amount
     K = np.arange(m)
     Q = 2943  # Capacity
     W = 2557  # curb weight
@@ -241,7 +241,7 @@ while xxx < 11:    #set parameters
     enn = 1
 
     a = 1
-    while a < 101:
+    while a < 61:
 
         relN[:, 3] = a*10
         qi = relN[:, 3]

@@ -218,7 +218,7 @@ while xxx < 11:    #set parameters
     N0q = N0.shape[0]  # number customers
     qi = relN[:, 3]  # Demand Customer
     ##Vehicles
-    m = 9  # amount
+    m = 99  # amount
     K = np.arange(m)
     Q = 2943  # Capacity
     W = 2557  # curb weight
@@ -240,7 +240,7 @@ while xxx < 11:    #set parameters
     differ = bi - ai
 
     a = 1
-    while a < 101:
+    while a < 61:
 
         relN[:, 3] = a*10
         qi = relN[:, 3]
