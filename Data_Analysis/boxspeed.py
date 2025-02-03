@@ -20,8 +20,8 @@ for name, file_path in file_paths.items():
     df.dropna(subset=['averagespeed'], inplace=True)
 
     # Filter entries with up to 9 customers
-    df = df[df['customers'] <= 25]
-    df = df[df['customers'] >= 11]
+    df = df[df['customers'] <= 9]
+    #df = df[df['customers'] >= 11]
 
     # Convert average speed from m/s to km/h
     df['averagespeed_kmh'] = df['averagespeed'] * 3.6
@@ -57,6 +57,6 @@ plt.ylabel('km/h', fontsize=14)
 plt.xticks(fontsize=14, rotation=45)
 plt.yticks(fontsize=14)
 plt.grid(True, axis='y')
-plt.savefig('../vis/average_speed_boxplot_kmh_11.svg', format='svg')
+#plt.savefig('../vis/average_speed_boxplot_kmh_11.svg', format='svg')
 
 plt.show()
