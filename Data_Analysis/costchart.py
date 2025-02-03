@@ -10,33 +10,41 @@ file_paths = {
     'outprpserver': '../output/outprpsize10.csv'
 }
 
+# Create label mapping with correct model names
+label_mapping = {
+    'outpdserver': '$F_D$',
+    'outplserver': '$F_L$',
+    'outpeserver': '$F_E$',
+    'outprpserver': '$F_C$'
+}
+
 drivers_pay_percentage_dict = {}
 
 for name, file_path in file_paths.items():
     df = pd.read_csv(file_path, na_values='nan')
 
-    # Convert costs and drivers_pay to numeric
+    # Convert costs and driver_pay to numeric
     df['costs'] = pd.to_numeric(df['costs'], errors='coerce')
     df['driver_pay'] = pd.to_numeric(df['driver_pay'], errors='coerce')
     df.dropna(subset=['costs', 'driver_pay'], inplace=True)
 
-    # Calculate drivers_pay percentage of costs
+    # Calculate driver_pay percentage of costs
     drivers_pay_percentage = (df['driver_pay'] / df['costs']) * 100
     drivers_pay_percentage_dict[name] = drivers_pay_percentage.mean()
 
 # Plotting
 plt.figure(figsize=(12, 6))
 
-model_names = list(drivers_pay_percentage_dict.keys())
+model_names = [label_mapping[name] for name in drivers_pay_percentage_dict.keys()]
 drivers_pay_percentages = list(drivers_pay_percentage_dict.values())
 
 plt.bar(model_names, drivers_pay_percentages, color='skyblue')
 
-plt.xlabel('Model', fontsize=14)
-plt.ylabel('Drivers Pay Percentage of Costs (%)', fontsize=14)
+plt.xlabel('Modell', fontsize=14)
+plt.ylabel('%', fontsize=14)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 plt.grid(True, axis='y')
-#plt.savefig('../vis/drivers_pay_percentage_of_costs.svg', format='svg')
+plt.savefig('../vis/drivers_pay_percentage_of_costs.svg', format='svg')
 
 plt.show()
