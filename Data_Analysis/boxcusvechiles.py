@@ -27,9 +27,9 @@ for name, file_path in file_paths.items():
     # Apply cutoff for outprpserver at 8 customers
     #if name == 'outprpserver':
     #    df = df[df['customers'] <= 9]
-    df = df[df['customers'] <= 9]
-    #df = df[df['customers'] <= 25]
-    #df = df[df['customers'] >= 11]
+    #df = df[df['customers'] <= 9]
+    df = df[df['customers'] <= 25]
+    df = df[df['customers'] >= 11]
     # Collect customers per vehicle data
     for _, row in df.iterrows():
         customers_per_vehicle = row['customers'] / row['vehicles']  # Assuming 'distance' is the number of vehicles
@@ -62,6 +62,6 @@ plt.ylabel('Kunden pro Fahrzeug', fontsize=14)
 plt.xticks(fontsize=14, rotation=45)
 plt.yticks(fontsize=14)
 plt.grid(True, axis='y')
-plt.savefig('../vis/customers_per_vehicle_boxplot_9.svg', format='svg')
+plt.savefig('../vis/customers_per_vehicle_boxplot_11_25.svg', format='svg')
 
 plt.show()
