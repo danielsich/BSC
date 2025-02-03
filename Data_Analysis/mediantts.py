@@ -40,7 +40,7 @@ label_mapping = {
 for name, quartiles in quartiles_dict.items():
     plt.plot(quartiles.index, quartiles, label=label_mapping[name])
 
-plt.yscale('log')
+#plt.yscale('log')
 plt.xlabel('Kunden', fontsize=14)
 plt.ylabel('Rechenzeit', fontsize=14)
 plt.xticks(fontsize=14)
