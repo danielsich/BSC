@@ -316,7 +316,7 @@ while xxx < 11:    #set parameters
 
 
         if prp.Status == GRB.TIME_LIMIT:
-            #append_nan_results_to_csv(len(N0),eff,a,xxx)
+            append_nan_results_to_csv(len(N0),eff,a,xxx)
             print(f"Gurobi time limit reached for customer size {len(N0)}")
             xxx += 1
             a = 1
@@ -347,7 +347,7 @@ while xxx < 11:    #set parameters
             print(f"Total fuel: {total_fuel}")
             driver_pay = calculate_driver_pay(xVar, p, s, N0)
             print(f"Driver cost: {driver_pay}")
-            #append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff,total_fuel, driver_pay,eff,a,xxx)
+            append_results_to_csv(len(N0), average_speed, total_distance, vehicles_used, total_costs, elapsed_time, weighted_load,positive_height_diff,total_fuel, driver_pay,eff,a,xxx)
             a += 1
     else:
         xxx += 1
