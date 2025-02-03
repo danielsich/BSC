@@ -21,6 +21,9 @@ for name, file_path in file_paths.items():
     # Fill NaN in tts column with 600
     df['tts'].fillna(900, inplace=True)
 
+    # Filter data to include only customers <= 34
+    df_filtered = df[df['customers'] <= 34]
+
     # Calculate quartiles
     quartiles = df.groupby('customers')['tts'].median()
     quartiles_dict[name] = quartiles
