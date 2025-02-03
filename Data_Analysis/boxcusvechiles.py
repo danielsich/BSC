@@ -62,6 +62,6 @@ plt.ylabel('Kunden pro Fahrzeug', fontsize=14)
 plt.xticks(fontsize=14, rotation=45)
 plt.yticks(fontsize=14)
 plt.grid(True, axis='y')
-plt.savefig('../vis/customers_per_vehicle_boxplot_11_25.svg', format='svg')
+# plt.savefig('../vis/customers_per_vehicle_boxplot_11_25.svg', format='svg')
 
 plt.show()
