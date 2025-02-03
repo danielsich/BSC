@@ -28,7 +28,7 @@ for name, file_path in file_paths.items():
 
     # Apply cutoff for outprpserver at 9 customers
     if name == 'outprpserver':
-        df = df[df['customers'] <= 9]
+        df = df[df['customers'] <= 10]
 
     # Calculate average distances per customer
     average_distances = df.groupby('customers')['distance'].mean()
