@@ -29,7 +29,7 @@ for name, file_path in file_paths.items():
 
     # Apply cutoff for outprpserver at 8 customers
     if name == 'outprpserver':
-        df = df[df['customers'] <= 8]
+        df = df[df['customers'] <= 10]
 
     # Calculate percentage increase compared to the base model for each row
     for _, row in df.iterrows():
