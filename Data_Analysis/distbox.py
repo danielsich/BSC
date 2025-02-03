@@ -28,9 +28,9 @@ for name, file_path in file_paths.items():
     df.dropna(subset=['distance'], inplace=True)
 
     # Apply cutoff for outprpserver at 8 customers
-    #if name == 'outprpserver':
-     #   df = df[df['customers'] <= 10]
-    df = df[df['customers'] <= 9]
+    if name == 'outprpserver':
+        df = df[df['customers'] <= 10]
+    #df = df[df['customers'] <= 9]
     # Calculate percentage increase compared to the base model for each row
     for _, row in df.iterrows():
         customer = row['customers']
@@ -65,6 +65,6 @@ plt.ylabel('%', fontsize=14)
 plt.xticks(fontsize=14, rotation=45)
 plt.yticks(fontsize=14)
 plt.grid(True, axis='y')
-plt.savefig('../vis/percentage_increase_boxplot_corr2.svg', format='svg')
+#plt.savefig('../vis/percentage_increase_boxplot_corr2.svg', format='svg')
 
 plt.show()
