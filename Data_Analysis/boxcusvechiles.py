@@ -8,7 +8,7 @@ file_paths = {
     'outpdserver': '../output/outpdsizeserver.csv',
     'outplserver': '../output/outplserver.csv',
     'outpeserver': '../output/outpeserver.csv',
-    #'outprpserver': '../output/outprpsize10.csv'
+    'outprpserver': '../output/outprpsize10.csv'
 }
 
 # Read the base dataset separately for comparison
@@ -28,7 +28,7 @@ for name, file_path in file_paths.items():
     #if name == 'outprpserver':
     #    df = df[df['customers'] <= 9]
     df = df[df['customers'] <= 25]
-    df = df[df['customers'] >= 1]
+    df = df[df['customers'] >= 11]
     # Collect customers per vehicle data
     for _, row in df.iterrows():
         customers_per_vehicle = row['customers'] / row['vehicles']  # Assuming 'distance' is the number of vehicles
@@ -42,7 +42,7 @@ label_mapping = {
     'outpdserver': '$F_D$',
     'outplserver': '$F_L$',
     'outpeserver': '$F_E$',
-    #'outprpserver': '$F_C$'
+    'outprpserver': '$F_C$'
 }
 
 # Replace model names with labels in the DataFrame
