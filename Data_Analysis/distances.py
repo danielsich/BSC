@@ -10,42 +10,52 @@ file_paths = {
     'outprpserver': '../output/outprpsize10.csv'
 }
 
-average_distances_dict = {}
+# Read outpdserver separately for the base comparison
+base_df = pd.read_csv(file_paths['outpdserver'], na_values='nan')
+base_df['distance'] = pd.to_numeric(base_df['distance'], errors='coerce')
+base_df.dropna(subset=['distance'], inplace=True)
+base_distances = base_df.groupby('customers')['distance'].mean()
+
+percentage_increase_dict = {}
 
 for name, file_path in file_paths.items():
+    if name == 'outpdserver':
+        continue  # Skip the base model itself
+
     df = pd.read_csv(file_path, na_values='nan')
-
-    # Convert tts to numeric
     df['distance'] = pd.to_numeric(df['distance'], errors='coerce')
-
-    # Drop NaN values in tts column
     df.dropna(subset=['distance'], inplace=True)
 
+    # Apply cutoff for outprpserver at 9 customers
+    if name == 'outprpserver':
+        df = df[df['customers'] <= 9]
 
     # Calculate average distances per customer
     average_distances = df.groupby('customers')['distance'].mean()
-    average_distances_dict[name] = average_distances
+
+    # Calculate percentage increase compared to the base model
+    common_customers = average_distances.index.intersection(base_distances.index)
+    percentage_increase = ((average_distances[common_customers] - base_distances[common_customers]) / base_distances[common_customers]) * 100
+    percentage_increase_dict[name] = percentage_increase
 
 # Plotting
 plt.figure(figsize=(12, 6))
 
 label_mapping = {
-    'outpdserver': '$F_D$ Average Distance',
-    'outplserver': '$F_L$ Average Distance',
-    'outpeserver': '$F_E$ Average Distance',
-    'outprpserver': '$F_C$ Average Distance'
+    'outplserver': '$F_L$',
+    'outpeserver': '$F_E$',
+    'outprpserver': '$F_C$'
 }
 
-for name, average_distances in average_distances_dict.items():
-    plt.plot(average_distances.index, average_distances, label=label_mapping[name])
+for name, percentage_increase in percentage_increase_dict.items():
+    plt.plot(percentage_increase.index, percentage_increase, label=label_mapping[name])
 
-plt.yscale('log')
 plt.xlabel('Kunden', fontsize=14)
-plt.ylabel('Durchschnittliche Distanz', fontsize=14)
+plt.ylabel('%', fontsize=14)
 plt.xticks(fontsize=14)
 plt.yticks(fontsize=14)
 plt.legend(fontsize=14)
 plt.grid(True)
-#plt.title('Average Distances per Customersize for Different Datasets', fontsize=16)
-#plt.savefig('../vis/average_distances_comparison.svg', format='svg')
+#plt.title('Percentage Increase in Distances Compared to $F_D$', fontsize=16)
+plt.savefig('../vis/percentage_increase_comparison.svg', format='svg')
 plt.show()
