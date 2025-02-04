@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the dataset
-file_path = '../servicetime/s20.csv'
+file_path = '../servicetime/s50.csv'
 df = pd.read_csv(file_path)
 
 # Calculate the service time in minutes
@@ -32,5 +32,5 @@ ax2.tick_params(axis='y', labelcolor=color)
 fig.tight_layout()  # Otherwise, the right y-label is slightly clipped
 #plt.title('Service Time vs Costs and Driver Pay Percentage (Averaged per Time Window)')
 fig.legend(loc='upper left', bbox_to_anchor=(0.1, 0.9))
-plt.savefig('../vis/service_time_vs_costs_and_driver_pay_percentage_averaged20.svg', format='svg')
+#plt.savefig('../vis/service_time_vs_costs_and_driver_pay_percentage_averaged50.svg', format='svg')
 plt.show()
