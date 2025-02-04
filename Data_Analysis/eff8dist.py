@@ -31,5 +31,5 @@ fig.tight_layout()  # Otherwise, the right y-label is slightly clipped
 #plt.title('Effizienz vs Gefahrene Distanz und Durchschnittsgeschwindigkeit', fontsize=16)
 fig.legend(loc='upper left', bbox_to_anchor=(0.1, 0.9))
 #
-plt.savefig('eff_vs_distance_and_speed8.svg', format='svg')
+plt.savefig('../vis/eff_vs_distance_and_speed8.svg', format='svg')
 plt.show()
