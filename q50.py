@@ -240,7 +240,7 @@ while xxx < 11:    #set parameters
     differ = bi - ai
 
     a = 1
-    while a < 61:
+    while a < 46:
 
         relN[:, 3] = a*10
         qi = relN[:, 3]
